@@ -1,0 +1,29 @@
+# Ignore compiled C++ files
+*.o
+*.exe
+*.out
+
+# Ignore Rust build artifacts
+/target/
+/Cargo.lock
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore virtual environment directories for Python
+venv/
+env/
+*.env
+
+# Ignore IDE and editor files
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
