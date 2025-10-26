@@ -3,9 +3,9 @@ public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
         const int DIRECTIONS[4][2]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
-        const size_t rows = matrix.size();
-        const size_t cols = matrix[0].size();
-        const size_t total_nums = rows * cols;
+        const size_t rows{matrix.size()};
+        const size_t cols{matrix[0].size()};
+        const size_t total_nums{rows * cols};
 
         vector<int> res;
         res.reserve(total_nums);
@@ -16,7 +16,7 @@ public:
 
         size_t curr_dir_index{0};
 
-        for (int k{0}; k < total_nums; ++k) {
+        for (size_t k{0}; k < total_nums; ++k) {
             res.push_back(matrix[i][j]);
             is_seen[i][j] = true;
 
