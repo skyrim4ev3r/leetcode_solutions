@@ -1,0 +1,41 @@
+impl Solution {
+    fn reformat_string(s: &mut String) {
+        let mut stack: Vec<(usize, u8)> = Vec::new();
+        let mut str_view = unsafe { s.as_mut_vec() };
+        for i in 0..str_view.len() {
+            if let Some(top_element) = stack.last() {
+                if (str_view[i] == '}' as u8 && top_element.1 == '{' as u8)
+                    || (str_view[i] == ']' as u8 && top_element.1 == '[' as u8)
+                    || (str_view[i] == ')' as u8 && top_element.1 == '(' as u8)
+                {
+                    unsafe { 
+                        str_view[top_element.0] = '+' as u8; 
+                        str_view[i] = '+' as u8;
+                    }
+                    stack.pop();
+                    continue;
+                }
+            }
+            stack.push((i, str_view[i]));
+        }
+    }
+    fn max_continuous_substr_of_char_plus(s: &mut String) -> i32 {
+        let (mut max, mut curr) = (0, 0);
+        let str_as_bytes = s.as_bytes();
+        for i in 0..str_as_bytes.len() {
+            if (str_as_bytes[i] == '+' as u8) {
+                curr += 1;
+            } else {
+                curr = 0;
+            } 
+            if (curr > max) {
+                max = curr;
+            }
+        }
+        return max;
+    }
+    pub fn longest_valid_parentheses(mut s: String) -> i32 {        
+        Self::reformat_string(&mut s);        
+        Self::max_continuous_substr_of_char_plus(&mut s)
+    }
+}
