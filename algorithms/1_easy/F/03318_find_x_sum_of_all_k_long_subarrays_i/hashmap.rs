@@ -6,7 +6,7 @@ impl Solution {
         let x_usize = x as usize;
         let len = nums.len();
         let mut freqs: HashMap<i32, i32> = HashMap::new();
-        let mut res: Vec<i32> = Vec::new();
+        let mut res: Vec<i32> = Vec::with_capacity(len - k_usize + 1);
         let mut left = 0_usize;
 
         for i in 0..k_usize {
