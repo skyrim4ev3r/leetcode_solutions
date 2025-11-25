@@ -1,0 +1,24 @@
+impl Solution {
+    pub fn sum_and_multiply(mut n: i32) -> i64 {
+        let mut sum = 0_i32;
+        let mut p = 1_i32;
+        let mut res = 0_i32;
+
+        while n / p >= 10 {
+            p *= 10;
+        }
+
+        while p > 0 {
+            let dig = (n / p) % 10;
+            p /= 10;
+
+            if dig > 0 {
+                res *= 10;
+                res += dig;
+                sum += dig;
+            }
+        }
+
+        res as i64 * sum as i64
+    }
+}
