@@ -7,11 +7,11 @@ class Solution:
         low = 1
         high = n
 
-        while low <= high:
+        while low < high:
             mid = low + (high - low) // 2
 
             if isBadVersion(mid):
-                high = mid - 1
+                high = mid
             else:
                 low = mid + 1
 

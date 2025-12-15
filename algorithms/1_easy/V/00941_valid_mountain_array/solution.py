@@ -1,21 +1,19 @@
 class Solution:
     def validMountainArray(self, arr: List[int]) -> bool:
+        n = len(arr)
 
-        is_increasing = True
-        arr_len = len(arr)
-
-        if arr_len < 3 or arr[1] <= arr[0] or arr[arr_len - 1] >= arr[arr_len - 2]:
+        if n < 3 or arr[1] <= arr[0] or arr[n - 1] >= arr[n - 2]:
             return False
 
-        for i in range(1, arr_len):
-            if is_increasing:
-                if arr[i] == arr[i - 1]:
-                    return False
+        index = 1
 
-                if arr[i] < arr[i - 1]:
-                    is_increasing = False
-            else:
-                if arr[i] >= arr[i - 1]:
-                    return False
+        while index < n and arr[index] > arr[index - 1]:
+            index += 1
 
-        return True
+        if index == 1 or index == n or arr[index] == arr[index - 1]:
+            return False
+
+        while index < n and arr[index] < arr[index - 1]:
+            index += 1
+
+        return index == n
