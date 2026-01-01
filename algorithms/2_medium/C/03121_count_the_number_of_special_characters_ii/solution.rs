@@ -1,0 +1,29 @@
+impl Solution {
+    pub fn number_of_special_chars(word: String) -> i32 {
+        let mut seen_upper = [false; 26];
+        let mut seen_lower = [false; 26];
+        let mut cant_be_count = [false; 26];
+        let mut count = 0_i32;
+
+        for &byte in word.as_bytes().iter() {
+            if byte >= b'A' && byte <= b'Z' {
+                seen_upper[(byte - b'A') as usize] = true;
+            } else {
+                let index = (byte - b'a') as usize;
+
+                seen_lower[index] = true;
+                if seen_upper[index] {
+                    cant_be_count[index] = true;
+                }
+            }
+        }
+
+        for i in 0..26 {
+            if seen_lower[i] && seen_upper[i] && cant_be_count[i] == false {
+                count += 1;
+            }
+        }
+
+        count
+    }
+}
