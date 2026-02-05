@@ -4,25 +4,9 @@ impl Solution {
         let mut res = vec![0_i32; len];
 
         for i in 0..len {
-            let curr = nums[i] as isize;
-
-            if curr != 0 {
-                let mut steps = curr.abs() % (len as isize);
-
-                if curr < 0 {
-                    steps *= -1;
-                }
-
-                let mut target_index = i as isize + steps;
-
-                if target_index < 0 {
-                    target_index += len as isize;
-                } else if target_index >= len as isize {
-                    target_index -= len as isize;
-                }
-
-                res[i] = nums[target_index as usize];
-            }
+            let steps = (nums[i] as isize) % (len as isize);
+            let target_index = (i as isize + steps + len as isize) % len as isize;
+            res[i] = nums[target_index as usize];
         }
 
         res
