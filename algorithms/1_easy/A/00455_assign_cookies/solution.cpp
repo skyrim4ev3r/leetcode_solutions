@@ -1,18 +1,22 @@
 class Solution {
 public:
-    int findContentChildren(vector<int>& g, vector<int>& s) {
-        int count{0};
-        const size_t g_len{g.size()};
-        const size_t s_len{s.size()};
+    static int findContentChildren(vector<int>& g, vector<int>& s) {
+        ranges::sort(g);
+        ranges::sort(s);
 
-        sort(g.begin(),g.end());
-        sort(s.begin(),s.end());
+        const size_t len_g{ g.size() };
+        const size_t len_s{ s.size() };
+        int32_t count{ 0 };
+        size_t index_g{ 0 };
+        size_t index_s{ 0 };
 
-        for(size_t i{0}, j{0}; i < s_len && j < g_len; ++i) { 
-            if(g[j] <= s[i]) {
-                ++count;
-                ++j;
+        while (index_s < len_s && index_g < len_g) {
+            if (g[index_g] <= s[index_s]) {
+                count += 1;
+                index_g += 1;
             }
+
+            index_s += 1;
         }
 
         return count;
