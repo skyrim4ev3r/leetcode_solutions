@@ -1,20 +1,19 @@
 class Solution {
 public:
-    int reverse(int x) {
+    static int reverse(const int x) {
+        int64_t rev = 0;
+        int64_t temp = abs(static_cast<int64_t>(x));
 
-        long rev{0};
-        long x_abs_i64{abs(static_cast<long>(x))};
-
-        while (x_abs_i64 != 0) {
-            rev = rev * 10 + x_abs_i64 % 10;
-            x_abs_i64 /= 10;
+        while (temp != 0) {
+            rev = rev * 10 + temp % 10;
+            temp /= 10;
         }
 
         if (x < 0) {
             rev *= -1;
         }
 
-        if (rev > INT_MAX || rev < INT_MIN) {
+        if (rev > numeric_limits<int32_t>::max() || rev < numeric_limits<int32_t>::min()) {
             return 0;
         }
 

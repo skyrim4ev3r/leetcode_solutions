@@ -1,13 +1,11 @@
 class Solution {
 public:
     int myAtoi(string s) {
-        const size_t len{s.size()};
-        bool is_negative{false};
-        size_t index{0};
-        const long long INT_MIN_AS_i64{static_cast<long long>(numeric_limits<int>::min())};
-        const long long INT_MAX_AS_i64{static_cast<long long>(numeric_limits<int>::max())};
+        const size_t len = s.size();
+        bool is_negative = false;
+        size_t index = 0;
 
-        while (index < len && s[index] == ' ') {
+        while (index < len &&  s[index] == ' ') {
             index += 1;
         }
 
@@ -23,24 +21,24 @@ public:
             index += 1;
         }
 
-        long long res{0};
+        int64_t res = 0;
 
         while (index < len && s[index] >= '0' && s[index] <= '9') {
             res *= 10;
-            res += static_cast<long long>(s[index] - '0');
+            res += s[index] - '0';
             index += 1;
 
-            if (is_negative && res * -1 < INT_MIN_AS_i64) {
-                return numeric_limits<int>::min();
+            if (is_negative && (res * -1 < numeric_limits<int32_t>::min())) {
+                return numeric_limits<int32_t>::min();
             }
 
-            if (!is_negative && res > INT_MAX_AS_i64) {
-                return numeric_limits<int>::max();
+            if (!is_negative && res > numeric_limits<int32_t>::max()) {
+                return numeric_limits<int32_t>::max();
             }
         }
 
         if (is_negative) {
-            return static_cast<int>(res * -1);
+            res *= -1;
         }
 
         return static_cast<int>(res);

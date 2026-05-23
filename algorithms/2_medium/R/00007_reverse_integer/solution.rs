@@ -1,12 +1,11 @@
 impl Solution {
     pub fn reverse(x: i32) -> i32 {
-
         let mut rev = 0_i64;
-        let mut x_abs_i64 = (x as i64).abs();
+        let mut temp = (x as i64).abs();
 
-        while x_abs_i64 != 0 {
-            rev = rev * 10 + x_abs_i64 % 10;
-            x_abs_i64 /= 10; 
+        while temp != 0 {
+            rev = rev * 10 + temp % 10;
+            temp /= 10; 
         }
 
         if x < 0 {
