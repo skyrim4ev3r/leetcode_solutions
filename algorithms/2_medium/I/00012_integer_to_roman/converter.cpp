@@ -1,67 +1,19 @@
+constexpr size_t TOTAL_STEPS = 13;
+
 class Solution {
 public:
     static string intToRoman(int num) {
-        size_t steps{ 0 };
-        string res{};
+        static const char* symbols[TOTAL_STEPS] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        static const int values[TOTAL_STEPS] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        string res = "";
+        res.reserve(20);
 
-        array<array<char, 3>, 4> map_steps {
-            array<char, 3>{'I','V','X'},
-            {'X','L','C'},
-            {'C','D','M'},
-            {'M','_','_'}
-        };
-
-        while (num > 0) {
-            const int rem { num % 10 };
-            num /= 10;
-
-            switch (rem) {
-                case 1:
-                    res.push_back(map_steps[steps][0]);
-                    break;
-                case 2:
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][0]);
-                    break;
-                case 3:
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][0]);
-                    break;
-                case 4:
-                    res.push_back(map_steps[steps][1]);
-                    res.push_back(map_steps[steps][0]);
-                    break;
-                case 5:
-                    res.push_back(map_steps[steps][1]);
-                    break;
-                case 6:
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][1]);
-                    break;
-                case 7:
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][1]);
-                    break;
-                case 8:
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][0]);
-                    res.push_back(map_steps[steps][1]);
-                    break;
-                case 9:
-                    res.push_back(map_steps[steps][2]);
-                    res.push_back(map_steps[steps][0]);
-                    break;
-                default:
-                    break;
-            };
-
-            steps += 1;
+        for (size_t i = 0; i < TOTAL_STEPS; i++) {
+            while (num >= values[i]) {
+                res += symbols[i];
+                num -= values[i];
+            }
         }
-
-        ranges::reverse(res);
 
         return res;
     }

@@ -1,23 +1,24 @@
 class Solution {
 public:
-    int maxArea(vector<int>& height) {
-        size_t left{0};
-        size_t right{height.size() - 1};
-        int max{0};
+    static int maxArea(const vector<int>& height) {
+        int max_water = 0;
+        size_t left = 0;
+        size_t right = height.size() - 1;
 
         while (left < right) {
-            int height_l{height[left]};
-            int height_r{height[right]};
-            int curr_min_height = std::min(height_l, height_r);
-            max = std::max(max, static_cast<int>(right - left) * curr_min_height);
+            const int hl = height[left];
+            const int hr = height[right];
+            const int min_height = std::min(hl, hr);
+            const int curr_water = static_cast<int>(right - left) * min_height;
+            max_water = std::max(max_water, curr_water);
 
-            if (height_l < height_r) {
+            if (hl < hr) {
                 left += 1;
             } else {
                 right -= 1;
             }
         }
 
-        return max;
+        return max_water;
     }
 };

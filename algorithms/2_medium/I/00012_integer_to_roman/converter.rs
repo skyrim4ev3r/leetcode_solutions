@@ -1,66 +1,19 @@
 impl Solution {
     pub fn int_to_roman(mut num: i32) -> String {
-        let mut steps = 0_usize;
-        let mut res: Vec<u8> = Vec::new();
-
-        let map_steps = [
-            [b'I',b'V',b'X'],
-            [b'X',b'L',b'C'],
-            [b'C',b'D',b'M'],
-            [b'M',b'_',b'_'],
+        static TOTAL_STEPS: usize = 13;
+        static symbols_vals: [(&str, i32); TOTAL_STEPS] = [
+            ("M", 1000), ("CM", 900), ("D", 500), ("CD", 400), ("C", 100), ("XC", 90),
+            ("L", 50), ("XL", 40), ("X", 10), ("IX", 9), ("V", 5), ("IV", 4), ("I", 1)
         ];
+        let mut res = String::with_capacity(20);
 
-        while num > 0 {
-            let rem = num % 10;
-            num /= 10;
-
-            match rem {
-                1 => {
-                    res.push(map_steps[steps][0]);
-                },
-                2 => {
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][0]);
-                },
-                3 => {
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][0]);
-                },
-                4 => {
-                    res.push(map_steps[steps][1]);
-                    res.push(map_steps[steps][0]);
-                },
-                5 => {
-                    res.push(map_steps[steps][1]);
-                },
-                6 => {
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][1]);
-                },
-                7 => {
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][1]);
-                },
-                8 => {
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][0]);
-                    res.push(map_steps[steps][1]);
-                },
-                9 => {
-                    res.push(map_steps[steps][2]);
-                    res.push(map_steps[steps][0]);
-                },
-                _ => {}
-            };
-
-            steps += 1;
+        for (sym, val) in symbols_vals.into_iter() {
+            while num >= val {
+                res.push_str(sym);
+                num -= val;
+            }
         }
 
-        res.reverse();
-
-        String::from_utf8(res).unwrap()
+        res
     }
 }

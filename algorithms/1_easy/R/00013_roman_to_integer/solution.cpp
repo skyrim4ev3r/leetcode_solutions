@@ -1,45 +1,38 @@
 class Solution {
+    static inline int get_val(const char key) {
+        switch (key) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                return 0;
+        };
+    }
 public:
-    int romanToInt(string s) {
+    static int romanToInt(const string& s) {
+        const size_t len = s.size();
+        int sum = 0;
+        int curr_max = 0;
 
-        int sum{0};
-        int curr_max{0};
+        for (size_t i = len - 1; i < len; --i) {
+            const int val = get_val(s[i]);
 
-        for (auto it{s.rbegin()}; it != s.rend(); ++it) {
-
-            int curr_num = 0;
-
-            switch (*it) {
-                case 'I':
-                    curr_num = 1;
-                    break;
-                case 'V':
-                    curr_num = 5;
-                    break;
-                case 'X':
-                    curr_num = 10;
-                    break;
-                case 'L':
-                    curr_num = 50;
-                    break;
-                case 'C':
-                    curr_num = 100;
-                    break;
-                case 'D':
-                    curr_num = 500;
-                    break;
-                case 'M':
-                    curr_num = 1000;
-                    break;
-                default:
-                    break;
-            };
-
-            if (curr_num >= curr_max) {
-                sum += curr_num;
-                curr_max = curr_num;
+            if (val >= curr_max) {
+                sum += val;
+                curr_max = val;
             } else {
-                sum -= curr_num;
+                sum -= val;
             }
         }
 

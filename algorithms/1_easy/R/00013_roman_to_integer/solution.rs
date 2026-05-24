@@ -1,12 +1,10 @@
 impl Solution {
     pub fn roman_to_int(s: String) -> i32 {
-
         let mut sum = 0_i32;
         let mut curr_max = 0_i32;
 
-        for byte in s.into_bytes().into_iter().rev() {
-
-            let curr_num = match byte {
+        for byte in s.as_bytes().into_iter().rev() {
+            let val = match byte {
                 b'I' => 1_i32,
                 b'V' => 5_i32,
                 b'X' => 10_i32,
@@ -17,11 +15,11 @@ impl Solution {
                 _ => 0_i32,
             };
 
-            if curr_num >= curr_max {
-                sum += curr_num;
-                curr_max = curr_num;
+            if val >= curr_max {
+                sum += val;
+                curr_max = val;
             } else {
-                sum -= curr_num;
+                sum -= val;
             }
         }
 
