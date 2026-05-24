@@ -5,15 +5,16 @@ public:
             return "0";
         }
 
-        const size_t len1{num1.size()}, len2{num2.size()};
+        const size_t len1 = num1.size();
+        const size_t len2 = num2.size();
         string res;
-        res.reserve(len1 + len2);
+        res.reserve(std::max(len1, len2) * 2);
 
-        for (size_t i{0}; i < len1; ++i) {
-            char carry{0};
+        for (size_t i = 0; i < len1; i += 1) {
+            char carry = 0;
 
-            for (size_t j{0}; j < len2; ++j) {
-                const size_t pos{i + j};
+            for (size_t j = 0; j < len2; j += 1) {
+                const size_t pos = i + j;
 
                 if (pos >= res.size()) {
                     res.push_back(0);
@@ -29,6 +30,7 @@ public:
             }
         }
 
+        res.shrink_to_fit();
         for (char& ch : res) {
             ch += '0';
         }

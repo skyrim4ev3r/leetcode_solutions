@@ -1,29 +1,27 @@
 class Solution {
 public:
-    int firstMissingPositive(vector<int>& nums) {
-        size_t n{nums.size()};
+    static int firstMissingPositive(vector<int>& nums) {
+        const size_t len = nums.size();
 
-        for (int &num: nums) {
+        for (int& num : nums) {
             if (num <= 0) {
-                num = INT_MAX;
+                num = numeric_limits<int>::max();
             }
         }
 
-        for (size_t i{0}; i < n; ++i) {
-            int num_as_index = abs(nums[i]) - 1;
-            if (num_as_index < n) {
-                if (nums[num_as_index] > 0) {
-                    nums[num_as_index] *= -1;
-                }
+        for (size_t i = 0; i < len; i += 1) {
+            const size_t num_index = abs(nums[i]) - 1;
+            if (num_index < len && nums[num_index] > 0) {
+                nums[num_index] *= -1;
             }
         }
 
-        for (size_t i{0}; i < n; ++i) {
+        for (size_t i = 0; i < len; i += 1) {
             if (nums[i] > 0) {
                 return i + 1;
             }
         }
 
-        return n + 1;
+        return static_cast<int>(len + 1);
     }
 };

@@ -1,29 +1,23 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
+        left = 0
+        right = len(height) - 1
+        curr_max_left = 0
+        curr_max_right = 0
+        total = 0
 
-        left_idx = 0
-        right_idx = len(height) - 1
-        left_height = height[left_idx]
-        right_height = height[right_idx]
-        total_sum = 0
-
-        while left_idx + 1 < right_idx:
-            if left_height < right_height:
-                left_idx += 1
-                new_height = height[left_idx]
-
-                if left_height > new_height:
-                    total_sum += left_height - new_height
+        while left < right:
+            if height[left] < height[right]:
+                if curr_max_left > height[left]:
+                    total += curr_max_left - height[left];
                 else:
-                    left_height = new_height
-
+                    curr_max_left = height[left]
+                left += 1
             else:
-                right_idx -= 1
-                new_height = height[right_idx]
-
-                if right_height > new_height:
-                    total_sum += right_height - new_height
+                if curr_max_right > height[right]:
+                    total += curr_max_right - height[right]
                 else:
-                    right_height = new_height
+                    curr_max_right = height[right]
+                right -= 1
 
-        return total_sum
+        return total

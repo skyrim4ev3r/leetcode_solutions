@@ -1,36 +1,30 @@
 class Solution {
-public:    
-    int trap(vector<int>& height) {
-        
-        size_t left_idx = 0;
-        size_t right_idx = height.size() - 1;
-        int left_height = height[left_idx];
-        int right_height = height[right_idx];
-        int sum = 0;
+public:
+    static int trap(const vector<int>& height) {
+        size_t left = 0;
+        size_t right = height.size() - 1;
+        int curr_max_left = 0;
+        int curr_max_right = 0;
+        int total = 0;
 
-        while (left_idx + 1 < right_idx) {
-            if (left_height < right_height) {
-                left_idx += 1;
-                int new_height = height[left_idx];
-
-                if (left_height > new_height) {
-                    sum += left_height - new_height;
+        while (left < right) {
+            if (height[left] < height[right]) {
+                if (curr_max_left > height[left]) {
+                    total += curr_max_left - height[left];
                 } else {
-                    left_height = new_height;
+                    curr_max_left = height[left];
                 }
-
+                left += 1;
             } else {
-                right_idx -= 1;
-                int new_height = height[right_idx];
-
-                if (right_height > new_height) {
-                    sum += right_height - new_height;
+                if (curr_max_right > height[right]) {
+                    total += curr_max_right - height[right];
                 } else {
-                    right_height = new_height;
+                    curr_max_right = height[right];
                 }
+                right -= 1;
             }
         }
 
-        return sum;
+        return total;
     }
 };
