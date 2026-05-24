@@ -1,22 +1,30 @@
 class Solution {
-public:
-    string longestCommonPrefix(vector<string>& strs) {
+    static inline size_t calc_min_str_len(const vector<string>& strs) {
+        size_t min_len = numeric_limits<size_t>::max();
+        for (const auto& s : strs) {
+            min_len = std::min(min_len, s.size());
+        }
+        return min_len;
+    }
 
-        size_t min_word_len{std::min_element(strs.begin(), strs.end(),[](const string &a, const string &b) {
-                return a.size() < b.size();
-            }
-        )->size()};
-
-        for (size_t word_index{0}; word_index <  min_word_len; ++word_index) {
-            const char current_char = strs[0][word_index];
-
-            for (string &word: strs) {
-                if (word[word_index] != current_char) {
-                    return word.substr(0, word_index);
+    static inline size_t calc_pos(const vector<string>& strs) {
+        const size_t input_len = strs.size();
+        const size_t min_str_len = calc_min_str_len(strs);
+        size_t pos = 0;
+        while (pos < min_str_len) {
+            for (size_t i = 1; i < input_len; ++i) {
+                if (strs[i][pos] != strs[i - 1][pos]) {
+                    return pos;
                 }
             }
-        }
 
-        return strs[0].substr(0, min_word_len);
+            pos += 1;
+        }
+        return pos;
+    }
+public:
+    static string longestCommonPrefix(const vector<string>& strs) {
+        size_t pos = calc_pos(strs);
+        return strs[0].substr(0, pos);
     }
 };

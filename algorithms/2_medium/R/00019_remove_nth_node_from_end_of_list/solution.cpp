@@ -10,20 +10,17 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-
+    static ListNode* removeNthFromEnd(ListNode* head, int n) {
         ListNode* dummy = new ListNode(0);
         dummy->next = head;
 
-        ListNode* right{head};
-
-        for (int i{0}; i < n; ++i) {
+        ListNode* right = head;
+        for (int i = 0; i < n; ++i) {
             right = right->next;
         }
 
-        ListNode* left{head};
-        ListNode* prev{dummy};
-
+        ListNode* left = head;
+        ListNode* prev = dummy;
         while (right != nullptr) {
             right = right->next;
             prev = left;

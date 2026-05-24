@@ -11,7 +11,6 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-
         ListNode* dummy = new ListNode(0);
         ListNode* prev = dummy;
 
@@ -27,17 +26,9 @@ public:
             }
         }
 
-        if (list1 != nullptr) {
-            prev->next = list1;
-        }
-
-        if (list2 != nullptr) {
-            prev->next = list2;
-        }
-
+        prev->next = list1 == nullptr ? list2 : list1;
         ListNode* new_head = dummy->next;
         delete dummy;
-
         return new_head;
     }
 };
