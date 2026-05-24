@@ -1,30 +1,31 @@
 class Solution {
-    string RLE(const string &s) {
+    static string rle(const string &s) {
+        const size_t len = s.size();
+        size_t left = 0;
+        size_t right = 0;
+        string res;
+        res.reserve(1 + len * 2);
 
-        size_t len{s.size()};
-        size_t start{0};
-        size_t end{0};
-        string res{};
-
-        while (end < len) {
-            while (end < len && s[start] == s[end]) {
-                end += 1;
+        while (right < len) {
+            while (right < len && s[left] == s[right]) {
+                right += 1;
             }
-            res += to_string(end - start);
-            res.push_back(s[start]);
-            start = end;
-        }  
+            res += to_string(right - left);
+            res.push_back(s[left]);
+            left = right;
+        }
 
         return res;
     }
 public:
-    string countAndSay(int n) {
-        string res{"1"};
+    static string countAndSay(const int n) {
+        string res = "1";
 
-        for (int i{2}; i <= n; ++i) {
-            res = RLE(res);
+        for (int i = 1; i < n; ++i) {
+            res = rle(res);
         }
 
         return res;
     }
 };
+
