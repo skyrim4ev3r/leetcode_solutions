@@ -1,22 +1,22 @@
 impl Solution {
     pub fn can_jump(nums: Vec<i32>) -> bool {
-
         let len = nums.len();
-        let mut left = 0_usize;
         let mut right = 0_usize;
-        
-        while right < len - 1 {
-            let mut max_jump = 0_usize;
-            for i in left..=right {
-                max_jump = max_jump.max(i + nums[i] as usize);
+        let mut left = 0_usize;
+
+        while right + 1 < len {
+            let mut new_right = 0_usize;
+
+            while left <= right {
+                new_right = new_right.max(left + nums[left] as usize);
+                left += 1;
             }
 
-            if max_jump == right {
+            if new_right <= right {
                 return false;
             }
 
-            left = right + 1;
-            right = max_jump;
+            right = new_right;
         }
 
         true

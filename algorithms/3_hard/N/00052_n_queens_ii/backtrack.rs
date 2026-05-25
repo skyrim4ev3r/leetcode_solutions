@@ -1,17 +1,17 @@
 impl Solution {
+
     #[inline] 
-    fn is_safe(board: &Vec<Vec<u8>>, len: &usize, i: &usize, j: &usize) -> bool {
-
-        for ofs in 0..=*i {
-            if board[*i - ofs][*j] == b'Q' {
+    fn is_safe(board: &Vec<Vec<u8>>, len: usize, i: usize, j: usize) -> bool {
+        for ofs in 0..=i {
+            if board[i - ofs][j] == b'Q' {
                 return false;
             }
 
-            if *j >= ofs && board[*i - ofs][*j - ofs] == b'Q' {
+            if j >= ofs && board[i - ofs][j - ofs] == b'Q' {
                 return false;
             }
 
-            if (*j + ofs) < *len && board[*i - ofs][*j + ofs] == b'Q' {
+            if (j + ofs) < len && board[i - ofs][j + ofs] == b'Q' {
                 return false;
             }
         }
@@ -26,7 +26,7 @@ impl Solution {
         }
 
         for col in 0..len {
-            if Self::is_safe(board, &len, &curr_row, &col) {
+            if Self::is_safe(board, len, curr_row, col) {
                 board[curr_row][col] = b'Q';
                 Self::backtrack(count, board, len, curr_row + 1);
                 board[curr_row][col] = b'.';
@@ -38,17 +38,13 @@ impl Solution {
         // Uncomment the following lines to use the lookup table for n = 1 to 9 to gain execution speed
 
         /*
-        
         if 1 <= n && n <= 9 {
             return [1, 0, 0, 2, 10, 4, 40, 92, 352][n as usize - 1];
         }
-        
         */
-        
-        // Backtracking solution
 
         let len = n as usize;
-        let mut count = 0_i32; 
+        let mut count = 0_i32;
         let mut board = vec![vec![b'.'; len]; len];
 
         Self::backtrack(&mut count, &mut board, len, 0_usize);

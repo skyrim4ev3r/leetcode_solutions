@@ -1,18 +1,17 @@
 impl Solution {
 
-    #[inline] 
-    fn is_safe(board: &Vec<Vec<u8>>, len: &usize, i: &usize, j: &usize) -> bool {
-
-        for ofs in 0..=*i {
-            if board[*i - ofs][*j] == b'Q' {
+    #[inline(always)] 
+    fn is_safe(board: &Vec<Vec<u8>>, len: usize, i: usize, j: usize) -> bool {
+        for ofs in 0..=i {
+            if board[i - ofs][j] == b'Q' {
                 return false;
             }
 
-            if *j >= ofs && board[*i - ofs][*j - ofs] == b'Q' {
+            if j >= ofs && board[i - ofs][j - ofs] == b'Q' {
                 return false;
             }
 
-            if (*j + ofs) < *len && board[*i - ofs][*j + ofs] == b'Q' {
+            if (j + ofs) < len && board[i - ofs][j + ofs] == b'Q' {
                 return false;
             }
         }
@@ -33,7 +32,7 @@ impl Solution {
         }
 
         for col in 0..len {
-            if Self::is_safe(board, &len, &curr_row, &col) {
+            if Self::is_safe(board, len, curr_row, col) {
                 board[curr_row][col] = b'Q';
                 Self::backtrack(res, board, len, curr_row + 1);
                 board[curr_row][col] = b'.';
