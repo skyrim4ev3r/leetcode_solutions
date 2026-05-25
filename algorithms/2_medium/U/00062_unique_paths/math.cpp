@@ -1,12 +1,12 @@
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        long long max = m > n ? m - 1 : n - 1;
-        long long min = m > n ? n - 1 : m - 1;
-        long long high{max + min};
-        long long sum{1};
+        int64_t max = std::max(m - 1, n - 1);
+        int64_t min = std::min(m - 1, n - 1);
+        int64_t high = max + min;
+        int64_t sum = 1;
 
-        for (long long k{max + 1}; k <= high; ++k) {
+        for (int64_t k = max + 1; k <= high; k += 1) {
             sum *= k;
 
             while (min > 1 && sum % min == 0) {

@@ -1,14 +1,16 @@
 class Solution:
-    def uniquePaths(self, rows: int, cols: int) -> int:
-        dp = [[0] * cols for _ in range(rows)]
-        dp[0][0] = 1
+    def uniquePaths(self, m: int, n: int) -> int:
+        rows = max(m, n)
+        cols = min(m, n)
+        dp = [1] * cols
+        dp_next = [0] * cols
 
-        for i in range(rows):
-            for j in range(cols):
-                if i > 0:
-                    dp[i][j] += dp[i - 1][j]
+        for _ in range(1, rows):
+            dp_next[0] = 1
+            for j in range(1, cols):
+                dp_next[j] = dp_next[j - 1] + dp[j]
+            temp = dp
+            dp = dp_next
+            dp_next = temp
 
-                if j > 0:
-                    dp[i][j] += dp[i][j - 1]
-
-        return dp[rows - 1][cols - 1]
+        return dp[cols - 1]

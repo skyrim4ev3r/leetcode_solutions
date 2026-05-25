@@ -1,24 +1,19 @@
 class Solution {
 public:
-    int lengthOfLastWord(string s) {
+    static int lengthOfLastWord(const string& s) {
+        const size_t len = s.size();
+        int curr_word_len = 0;
+        int last_word_len = 0;
 
-        int count{0};
-        bool is_counting_started{false};
-
-        for (auto it{s.rbegin()}; it != s.rend(); ++it) {
-            if (*it != ' ') {
-                is_counting_started = true;
-            }
-
-            if (is_counting_started) {
-                if (*it != ' ') {
-                    count += 1;
-                } else {
-                    break;
-                }
+        for (size_t i = 0; i < len; i += 1) {
+            if (s[i] == ' ') {
+                curr_word_len = 0;
+            } else {
+                curr_word_len += 1;
+                last_word_len = curr_word_len;
             }
         }
 
-        return count;
+        return last_word_len;
     }
 };

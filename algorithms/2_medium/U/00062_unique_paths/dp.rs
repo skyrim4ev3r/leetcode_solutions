@@ -1,21 +1,18 @@
 impl Solution {
     pub fn unique_paths(m: i32, n: i32) -> i32 {
-        let (rows, cols) = (m as usize, n as usize);
-        let mut dp = vec![vec![0_i32; cols]; rows];
-        dp[0][0] = 1;
+        let rows = m.max(n) as usize;
+        let cols = m.min(n) as usize;
+        let mut dp = vec![1_i32; cols];
+        let mut dp_next = vec![0_i32; cols];
 
-        for i in 0..rows {
-            for j in 0..cols {
-                if i > 0 {
-                    dp[i][j] += dp[i - 1][j];
-                }
-
-                if j > 0 {
-                    dp[i][j] += dp[i][j - 1];
-                }
+        for _ in 1..rows {
+            dp_next[0] = 1;
+            for j in 1..cols {
+                dp_next[j] = dp_next[j - 1] + dp[j];
             }
+            std::mem::swap(&mut dp, &mut dp_next);
         }
 
-        dp[rows - 1][cols - 1]
+        dp[cols - 1]
     }
 }
