@@ -1,31 +1,22 @@
 impl Solution {
-    fn my_pow_helper(x: f64, n:i64) -> f64 {
-        if n == 1 {
-            return x;
+    fn pow_recursion(x: f64, n: i64) -> f64 {
+        if n == 0 {
+            return 1.0_f64;
         }
 
-        let mut pow = Self::my_pow_helper(x, n / 2);
+        let res = Self::pow_recursion(x, n / 2);
 
-        pow *= pow;
-
-        if (n & 1) == 1 {
-            pow *= x;
+        if ((n & 1) == 1) {
+            res * res * x
+        } else {
+            res * res
         }
-
-        pow
     }
 
     pub fn my_pow(x: f64, n: i32) -> f64 {
-        if n == 0 {
-            return 1_f64;
-        }
-
-        let n_i64 = n as i64;
-
-        if n_i64 < 0 {
-            return 1_f64 / Self::my_pow_helper(x, n_i64.abs());
-        }
-
-        Self::my_pow_helper(x, n_i64)
+        let pow_positive = (n as i64).abs();
+        let res = Self::pow_recursion(x, pow_positive);
+        
+        if n < 0 { 1.0_f64 / res } else { res }
     }
 }

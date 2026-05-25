@@ -1,33 +1,21 @@
 class Solution {
-    double my_pow_helper(double x, long n) {
-        if (n == 1) {
-            return x;
-        }
-
-        double pow{my_pow_helper(x, n / 2)};
-
-        pow *= pow;
-
-        if (n % 2 == 1) {
-            pow *= x;
-        }
-
-        return pow;
-    }
-
-public:
-    double myPow(double x, int n) {
-
+    static double pow_recursion(double x, int64_t n) {
         if (n == 0) {
             return 1;
         }
 
-        long n_i64{static_cast<long>(n)};
+        const double res = pow_recursion(x, n / 2);
 
-        if (n_i64 < 0) {
-            return 1 / my_pow_helper(x, abs(n_i64));
+        if ((n & 1) == 1) {
+            return res * res * x;
+        } else {
+            return res * res;
         }
-
-        return my_pow_helper(x, n_i64);
+    }
+public:
+    double myPow(double x, int n) {
+        const int64_t pow_positive = n < 0 ? -(static_cast<int64_t>(n)) : n;
+        const double res = pow_recursion(x, pow_positive);
+        return n < 0 ? 1 / res : res;
     }
 };

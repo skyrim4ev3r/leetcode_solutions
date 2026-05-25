@@ -1,23 +1,21 @@
 impl Solution {
     pub fn jump(nums: Vec<i32>) -> i32 {
-
         let len = nums.len();
         let mut left = 0_usize;
         let mut right = 0_usize;
-        let mut count = 0_i32;
+        let mut steps = 0_i32;
 
         while right < len - 1 {
-            let mut max_jump = 0_usize;
-
-            for i in left..=right {
-                max_jump = max_jump.max(i + nums[i] as usize);
+            let mut new_right = 0_usize;
+            while left <= right {
+                new_right = new_right.max(left + nums[left] as usize);
+                left += 1;
             }
-
-            left = right + 1;
-            right = max_jump;
-            count += 1;
+            // If new_right <= right there is no progress — indicates invalid input.
+            right = new_right;
+            steps += 1;
         }
 
-        count
+        steps
     }
 }

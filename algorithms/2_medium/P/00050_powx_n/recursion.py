@@ -1,22 +1,17 @@
 class Solution:
-    def my_pow_helper(self, x, n):
-        if n == 1:
-            return x
+    def pow_recursion(self, x, n):
+        if n == 0:
+            return 1
 
-        res_pow = self.my_pow_helper(x, n // 2)
-
-        res_pow *= res_pow
+        res = self.pow_recursion(x, n // 2)
 
         if (n & 1) == 1:
-            res_pow *= x
+            return res * res * x
 
-        return res_pow
+        return res * res
 
     def myPow(self, x: float, n: int) -> float:
-        if n == 0:
-            return 1.0
-
         if n < 0:
-            return 1 / self.my_pow_helper(x, abs(n))
+            return 1 / self.pow_recursion(x, abs(n))
 
-        return self.my_pow_helper(x, n)
+        return self.pow_recursion(x, n)
