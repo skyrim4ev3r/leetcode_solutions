@@ -1,19 +1,21 @@
 impl Solution {
     pub fn number_of_special_chars(word: String) -> i32 {
-        let mut seen_upper = [false; 26];
-        let mut seen_lower = [false; 26];
-        let mut count = 0_i32;
+        let bytes = word.as_bytes();
+        let len = bytes.len();
+        let mut flags = [0_u8; 26];
 
-        for &byte in word.as_bytes().iter() {
-            if byte >= b'A' && byte <= b'Z' {
-                seen_upper[(byte - b'A') as usize] = true;
+        for &byte in bytes.iter() {
+            if byte >= b'a' && byte <= b'z' {
+                flags[(byte - b'a') as usize] |= 1;
             } else {
-                seen_lower[(byte - b'a') as usize] = true;
+                flags[(byte - b'A') as usize] |= 2;
             }
         }
 
+        let mut count = 0_i32;
+
         for i in 0..26 {
-            if seen_lower[i] && seen_upper[i] {
+            if flags[i] == 3 {
                 count += 1;
             }
         }

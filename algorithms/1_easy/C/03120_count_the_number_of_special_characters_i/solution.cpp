@@ -1,20 +1,21 @@
 class Solution {
 public:
     static int numberOfSpecialChars(const string& word) {
-        array<bool, 26> seen_upper {};
-        array<bool, 26> seen_lower {};
-        int count {0};
+        const size_t len = word.size();
+        uint8_t flags[26] = { 0 };
 
-        for (const char& ch : word) {
-            if (ch >= 'A' && ch <= 'Z') {
-                seen_upper[static_cast<size_t>(ch - 'A')] = true;
+        for (size_t i = 0; i < len; i += 1) {
+            if (word[i] >= 'a' && word[i] <= 'z') {
+                flags[static_cast<size_t>(word[i] - 'a')] |= 1;
             } else {
-                seen_lower[static_cast<size_t>(ch - 'a')] = true;
+                flags[static_cast<size_t>(word[i] - 'A')] |= 2;
             }
         }
 
-        for (size_t i {0}; i < 26; ++i) {
-            if (seen_lower[i] && seen_upper[i]) {
+        int count = 0;
+
+        for (size_t i = 0; i < 26; i += 1) {
+            if (flags[i] == 3) {
                 count += 1;
             }
         }
