@@ -1,19 +1,20 @@
 class Solution {
 public:
-    void sortColors(vector<int>& nums) {
+    static void sortColors(vector<int>& nums) noexcept {
+        const size_t len = nums.size();
+        constexpr size_t COLOR_COUNT = 3;
+        int freqs[COLOR_COUNT] = { 0 };
 
-        const size_t colors_len{3};
-        int colors_count[colors_len]{};
-
-        for (int &num: nums) {
-            colors_count[static_cast<size_t>(num)] += 1;
+        for (const int num : nums) {
+            freqs[static_cast<size_t>(num)] += 1;
         }
 
         size_t nums_index = 0;
-        for (size_t i{0}; i < colors_len; ++i) {
-            int i_32 = static_cast<int>(i);
-            for (int k{0}; k < colors_count[i]; ++k) {
-                nums[nums_index] = i_32;
+        for (size_t i = 0; i < COLOR_COUNT; i += 1) {
+            const int freq = freqs[i];
+            int color = static_cast<int>(i);
+            for (int k = 0; k < freq; k += 1) {
+                nums[nums_index] = color;
                 nums_index += 1;
             }
         }
