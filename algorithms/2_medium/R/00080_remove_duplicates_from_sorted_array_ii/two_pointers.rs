@@ -9,12 +9,10 @@ impl Solution {
         let mut write_index = 2_usize;
 
         for read_index in 2..nums_len {
-            if nums[read_index] == nums[write_index - 2] {
-                continue;
+            if nums[read_index] != nums[write_index - 2] {
+                nums[write_index] = nums[read_index];
+                write_index += 1;
             }
-
-            nums[write_index] = nums[read_index];
-            write_index += 1;
         }
 
         write_index as i32

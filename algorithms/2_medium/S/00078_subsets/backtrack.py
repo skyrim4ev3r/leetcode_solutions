@@ -1,16 +1,20 @@
 class Solution:
-    def subsets_recursive(self, nums, start_index):
-        self.res.append(self.curr_list[:])
+    def backtrack(self, nums, nums_len, nums_idx, res, curr_vec):
+        if nums_idx == nums_len:
+            res.append(curr_vec[:])
+            return
 
-        for i in range(start_index, len(nums)):
-            self.curr_list.append(nums[i])
-            self.subsets_recursive(nums, i + 1)
-            self.curr_list.pop()
+        self.backtrack(nums, nums_len, nums_idx + 1, res, curr_vec)
+        curr_vec.append(nums[nums_idx])
+        self.backtrack(nums, nums_len, nums_idx + 1, res, curr_vec)
+        curr_vec.pop()
 
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        self.res = []
-        self.curr_list = []
+        nums_len = len(nums)
+        nums_idx = 0
+        res = []
+        curr_vec = []
 
-        self.subsets_recursive(nums, 0)
+        self.backtrack(nums, nums_len, nums_idx, res, curr_vec)
 
-        return self.res
+        return res

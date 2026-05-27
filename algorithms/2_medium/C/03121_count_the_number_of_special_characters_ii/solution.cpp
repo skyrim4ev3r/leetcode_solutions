@@ -1,30 +1,24 @@
 class Solution {
 public:
-    int numberOfSpecialChars(string word) {
-        array<bool, 26> seen_upper {};
-        array<bool, 26> seen_lower {};
-        array<bool, 26> cant_be_count {};
-        int count {0};
+    static int numberOfSpecialChars(const string& word) {
+        uint32_t lower = 0;
+        uint32_t upper = 0;
+        uint32_t lower_after_upper = 0;
 
-        for (const char& ch : word) {
-            if (ch >= 'A' && ch <= 'Z') {
-                seen_upper[static_cast<size_t>(ch - 'A')] = true;
-            } else {
-                const size_t index {static_cast<size_t>(ch - 'a')};
+        for (const unsigned char ch : word) {
+            if (ch >= 'a' && ch <= 'z') {
+                const uint32_t bit = 1u << (ch - 'a');
+                lower |= bit;
 
-                seen_lower[index] = true;
-                if (seen_upper[index]) {
-                    cant_be_count[index] = true;
+                if ((upper & bit) != 0) {
+                    lower_after_upper |= bit;
                 }
+            } else if (ch >= 'A' && ch <= 'Z') {
+                const uint32_t bit = 1u << (ch - 'A');
+                upper |= bit;
             }
         }
 
-        for (size_t i {0}; i < 26; ++i) {
-            if (seen_lower[i] && seen_upper[i] && cant_be_count[i] == false) {
-                count += 1;
-            }
-        }
-
-        return count;
+        return __builtin_popcount(lower & upper & (~lower_after_upper));
     }
 };
