@@ -11,32 +11,30 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode* dummy{ new ListNode(0) };
+        ListNode* dummy = new ListNode(0);
         dummy->next = head;
-        ListNode* prev{ dummy };
+        ListNode* prev = dummy;
+        ListNode* curr = prev->next;
 
-        while (prev != nullptr) {
-            ListNode* curr{ prev->next };
+        while (curr != nullptr && curr->next != nullptr) {
+            if (curr->val == curr->next->val) {
+                const int val_to_skip = curr->val;
+                ListNode* next_node = curr;
 
-            if (curr != nullptr && curr->next != nullptr) {
-                if (curr->val == curr->next->val) {
-                    const int val_to_del{ curr->val };
-
-                    while (curr != nullptr && curr->val == val_to_del) {
-                        curr = curr->next;
-                    }
-
-                    prev->next = curr;
-                } else {
-                    prev = curr;
-                    curr = curr->next;
+                while (next_node!= nullptr && next_node->val == val_to_skip) {
+                    // No need to delete here — input nodes are owned by caller/test harness.
+                    next_node = next_node->next;
                 }
+
+                curr = next_node;
+                prev->next = curr;
             } else {
-                break;
+                prev = curr;
+                curr = curr->next;
             }
         }
 
-        ListNode* new_head{ dummy->next };
+        ListNode* new_head = dummy->next;
         delete dummy;
         return new_head;
     }

@@ -11,17 +11,12 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        if (head == nullptr) {
-            return head;
-        }
+        ListNode* curr = head;
 
-        ListNode* curr{head};
-
-        while (curr->next != nullptr) {
-            if(curr->val == curr->next->val)  {
-                ListNode* temp = curr->next;
+        while (curr != nullptr && curr->next != nullptr) {
+            if (curr->val == curr->next->val)  {
+                // No need to delete here — input nodes are owned by caller/test harness.
                 curr->next = curr->next->next;
-                delete temp;
             } else {
                 curr = curr->next;
             }
