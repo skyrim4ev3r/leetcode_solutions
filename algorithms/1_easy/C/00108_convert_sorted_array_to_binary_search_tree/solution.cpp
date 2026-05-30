@@ -10,22 +10,19 @@
  * };
  */
 class Solution {
-    TreeNode* recursive(vector<int>& nums, size_t l, size_t r) {
-        size_t mid{(l + r) / 2};
-        TreeNode* new_node{new TreeNode(nums[mid])};
-
-        if (l < mid) {
-            new_node->left = recursive(nums, l, mid - 1);
+    static struct TreeNode* arr_to_bst_helper(const vector<int>& nums, const ptrdiff_t left, const ptrdiff_t right) {
+        if (left > right) {
+            return nullptr;
         }
 
-        if (mid < r) {
-            new_node->right = recursive(nums, mid + 1, r);
-        }
-
+        const ptrdiff_t mid = left + (right - left) / 2;
+        struct TreeNode* new_node = new TreeNode(nums[static_cast<size_t>(mid)]);
+        new_node->left = arr_to_bst_helper(nums, left, mid - 1);
+        new_node->right = arr_to_bst_helper(nums, mid + 1, right);
         return new_node;
     }
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return recursive(nums, 0, nums.size() - 1);
+        return arr_to_bst_helper(nums, 0, nums.size() - 1);
     }
 };

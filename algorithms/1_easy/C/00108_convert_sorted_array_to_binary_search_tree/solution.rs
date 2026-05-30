@@ -19,19 +19,19 @@
 use std::rc::Rc;
 use std::cell::RefCell;
 impl Solution {
-    fn recursive(nums: &Vec<i32>, l: usize, r: usize) -> Option<Rc<RefCell<TreeNode>>> {
-        let mid = (l + r) / 2;       
-        let mut new_node = Some(Rc::new(RefCell::new(TreeNode::new(nums[mid]))));
-        if l < mid {
-            new_node.as_mut().unwrap().borrow_mut().left = Self::recursive(nums, l, mid - 1);
-        }
-        if mid < r {
-            new_node.as_mut().unwrap().borrow_mut().right = Self::recursive(nums, mid + 1, r);
+    fn arr_to_bst_helper(nums: &Vec<i32>, left: isize, right: isize) -> Option<Rc<RefCell<TreeNode>>> {
+        if left > right {
+            return None;
         }
 
-        new_node
+        let mid = left + (right - left) / 2;       
+        let mut new_node = TreeNode::new(nums[mid as usize]);
+        new_node.left = Self::arr_to_bst_helper(nums, left, mid - 1);
+        new_node.right = Self::arr_to_bst_helper(nums, mid + 1, right);
+        Some(Rc::new(RefCell::new(new_node)))
     }
+
     pub fn sorted_array_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        Self::recursive(&nums, 0, nums.len() - 1)
+        Self::arr_to_bst_helper(&nums, 0, (nums.len() as isize) - 1)
     }
 }

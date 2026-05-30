@@ -10,23 +10,15 @@
  * };
  */
 class Solution {
-    void dfs(TreeNode* curr_node, int &max_level, int curr_level) {
-
+    static int max_depth_helper(TreeNode* curr_node) {
         if (curr_node == nullptr) {
-            return ;
+            return 0;
         }
 
-        max_level = std::max(max_level, curr_level);
-
-        dfs(curr_node->left, max_level, curr_level + 1);
-        dfs(curr_node->right, max_level, curr_level + 1);
+        return 1 + std::max(max_depth_helper(curr_node->left), max_depth_helper(curr_node->right));
     }
 public:
-    int maxDepth(TreeNode* root) {
-        int max_level{0};
-
-        dfs(root, max_level, 1);
-
-        return max_level;
+    static int maxDepth(TreeNode* root) {
+        return max_depth_helper(root);
     }
 };

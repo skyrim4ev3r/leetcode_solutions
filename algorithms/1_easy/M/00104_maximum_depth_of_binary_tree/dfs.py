@@ -5,18 +5,14 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def dfs(self, curr_node, max_level, curr_level):
+    def dfs(self, curr_node) -> int:
         if curr_node == None:
-            return
+            return 0
 
-        max_level[0] = max(max_level[0], curr_level)
-
-        self.dfs(curr_node.left, max_level, curr_level + 1)
-        self.dfs(curr_node.right, max_level, curr_level + 1)
+        return 1 + max(
+            self.dfs(curr_node.left),
+            self.dfs(curr_node.right)
+        )
 
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        max_level = [0]
-
-        self.dfs(root, max_level, 1)
-
-        return max_level[0]
+        return self.dfs(root)

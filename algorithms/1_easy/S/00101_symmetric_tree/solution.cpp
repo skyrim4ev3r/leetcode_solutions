@@ -1,5 +1,5 @@
 class Solution {
-    bool is_symmetric_helper(TreeNode* p, TreeNode* q) {
+    static bool is_symmetric_helper(TreeNode* p, TreeNode* q) {
         if (p == nullptr && q == nullptr) {
             return true;
         }
@@ -12,7 +12,7 @@ class Solution {
     }
 
 public:
-    bool isSymmetric(TreeNode* root) {
+    static bool isSymmetric(TreeNode* root) {
         return is_symmetric_helper(root->left, root->right);
     }
 };
