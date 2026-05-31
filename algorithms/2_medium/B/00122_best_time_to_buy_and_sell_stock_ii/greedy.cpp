@@ -1,12 +1,13 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int sum{0};
+    static int maxProfit(const vector<int>& prices) {
+        const size_t len = prices.size();
+        int total = 0;
 
-        for (auto it{prices.cbegin() + 1}; it != prices.cend(); ++it) {
-            sum = sum + max(0, *it - *(it - 1));
+        for (size_t i = 1; i < len; i += 1) {
+            total += std::max(0, prices[i] - prices[i - 1]);
         }
 
-        return sum;
+        return total;
     }
 };

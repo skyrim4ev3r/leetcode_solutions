@@ -10,27 +10,28 @@
  * };
  */
 class Solution {
-    int dfs_calculate_max_path_sum(const TreeNode * curr_node, int &max_path_sum) {
-
+    static int dfs(TreeNode* curr_node, int* max_path_sum) {
         if (curr_node == nullptr) {
             return 0;
         }
 
-        int curr_val = curr_node->val;;
-        int left_max_path_sum = std::max(0, dfs_calculate_max_path_sum(curr_node->left, max_path_sum));
-        int right_max_path_sum = std::max(0, dfs_calculate_max_path_sum(curr_node->right, max_path_sum));
+        const int curr_val = curr_node->val;;
+        const int left_sum = dfs(curr_node->left, max_path_sum);
+        const int right_sum = dfs(curr_node->right, max_path_sum);
+        const int curr_sum = curr_val + std::max(0, left_sum) + std::max(0, right_sum);
 
-        int path_sum_from_curr = curr_val + left_max_path_sum + right_max_path_sum;
+        *max_path_sum = std::max(*max_path_sum, curr_sum);
 
-        max_path_sum = std::max(max_path_sum, path_sum_from_curr);
+        const int max_child = std::max(left_sum, right_sum);
 
-        return curr_val + std::max(left_max_path_sum, right_max_path_sum);
+        return curr_val + std::max(0, max_child);
     }
-public:
-    int maxPathSum(TreeNode* root) {
-        int max_path_sum = INT_MIN;
 
-        dfs_calculate_max_path_sum(root, max_path_sum);
+public:
+    static int maxPathSum(TreeNode* root) {
+        int max_path_sum = numeric_limits<int>::min();
+
+        dfs(root, &max_path_sum);
 
         return max_path_sum;
     }

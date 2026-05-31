@@ -1,41 +1,52 @@
-class Solution {
-    const array<array<int, 2>, 4> DIRECTIONS{array<int, 2>{0 , 1}, {0, -1}, {1, 0}, {-1, 0}};
+constexpr char ATTACKER = 'X';
+constexpr char DEFENDER = 'O';
+constexpr char DEFENDER_MARKED = '+';
 
-    void dfs(vector<vector<char>>& board, const size_t m, const size_t n, const size_t i, const size_t j) {
-        if (i >= m || j >= n || board[i][j] != 'O') {
+class Solution {
+    static void dfs_mark_defender(
+        vector<vector<char>>& board,
+        const ptrdiff_t rows,
+        const ptrdiff_t cols,
+        const ptrdiff_t i,
+        const ptrdiff_t j
+    ) {
+        if (i < 0 || j < 0 || i >= rows || j >= cols || board[i][j] != DEFENDER) {
             return;
         }
 
-        board[i][j] = 'W';
+        board[i][j] = DEFENDER_MARKED;
 
-        for (const auto&[dx, dy] : DIRECTIONS) {
-            const size_t new_i{static_cast<size_t>(static_cast<int>(i) + dx)};
-            const size_t new_j{static_cast<size_t>(static_cast<int>(j) + dy)};
-
-            dfs(board, m, n, new_i, new_j);
+        const static ptrdiff_t DIRECTIONS[4][2] = {{0 , 1}, {0, -1}, {1, 0}, {-1, 0}};
+        for (const auto[dx, dy] : DIRECTIONS) {
+            dfs_mark_defender(board, rows, cols, i + dx, j + dy);
         }
     }
+
+    static void mark_defenders_at_edges(vector<vector<char>>& board, const ptrdiff_t rows, const ptrdiff_t cols) {
+        for (ptrdiff_t i = 0; i < rows; ++i) {
+            dfs_mark_defender(board, rows, cols, i, 0);
+            dfs_mark_defender(board, rows, cols, i, cols - 1);
+        }
+
+        for (ptrdiff_t j = 0; j < cols; ++j) {
+            dfs_mark_defender(board, rows, cols, 0, j);
+            dfs_mark_defender(board, rows, cols, rows - 1, j);
+        }
+    }
+
 public:
-    void solve(vector<vector<char>>& board) {
-        const size_t m{board.size()};
-        const size_t n{board[0].size()};
+    static void solve(vector<vector<char>>& board) {
+        const ptrdiff_t rows = board.size();
+        const ptrdiff_t cols = board[0].size();
 
-        for (size_t j{0}; j < n; ++j) {
-            dfs(board, m, n, 0, j);
-            dfs(board, m, n, m - 1, j);
-        }
+        mark_defenders_at_edges(board, rows, cols);
 
-        for (size_t i{0}; i < m; ++i) {
-            dfs(board, m, n, i, 0);
-            dfs(board, m, n, i, n - 1);
-        }
-
-        for (size_t j{0}; j < n; ++j) {
-            for (size_t i{0}; i < m; ++i) {
-                if (board[i][j] == 'W') {
-                    board[i][j] = 'O';
-                } else if (board[i][j] == 'O') {
-                    board[i][j] = 'X';
+        for (ptrdiff_t i = 0; i < rows; i += 1) {
+            for (ptrdiff_t j = 0; j < cols; j += 1) {
+                if (board[i][j] == DEFENDER_MARKED) {
+                    board[i][j] = DEFENDER;
+                } else if (board[i][j] == DEFENDER) {
+                    board[i][j] = ATTACKER;
                 }
             }
         }

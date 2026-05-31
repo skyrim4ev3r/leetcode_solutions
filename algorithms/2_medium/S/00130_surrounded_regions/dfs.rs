@@ -1,41 +1,45 @@
 impl Solution {
+    const ATTACKER: char = 'X';
+    const DEFENDER: char = 'O';
+    const DEFENDER_MARKED: char = '+';
     const DIRECTIONS: [(isize, isize); 4] = [(0 , 1), (0, -1), (1, 0), (-1, 0)];
 
-    fn dfs(board: &mut Vec<Vec<char>>, m: usize, n: usize, i: usize, j: usize) {
-        if i >= m || j >= n || board[i][j] != 'O' {
+    fn dfs_mark_defender(board: &mut Vec<Vec<char>>, rows: isize, cols: isize, i: isize, j: isize) {
+        if i < 0 || j < 0 || i >= rows || j >= cols || board[i as usize][j as usize] != Self::DEFENDER {
             return;
         }
 
-        board[i][j] = 'W';
+        board[i as usize][j as usize] = Self::DEFENDER_MARKED;
 
-        for (dx, dy) in Self::DIRECTIONS.iter() {
-            let new_i = (i as isize + dx) as usize;
-            let new_j = (j as isize + dy) as usize;
+        for &(dx, dy) in &Self::DIRECTIONS {
+            Self::dfs_mark_defender(board, rows, cols, i + dx, j + dy);
+        }
+    }
 
-            Self::dfs(board, m, n, new_i, new_j);
+    fn mark_defenders_at_edges(board: &mut Vec<Vec<char>>, rows: isize, cols: isize) {
+        for i in 0..rows {
+            Self::dfs_mark_defender(board, rows, cols, i, 0);
+            Self::dfs_mark_defender(board, rows, cols, i, cols - 1);
+        }
+
+        for j in 0..cols {
+            Self::dfs_mark_defender(board, rows, cols, 0, j);
+            Self::dfs_mark_defender(board, rows, cols, rows - 1, j);
         }
     }
 
     pub fn solve(board: &mut Vec<Vec<char>>) {
-        let m = board.len();
-        let n = board[0].len();
+        let rows = board.len() as isize;
+        let cols = board[0].len() as isize;
 
-        for j in 0..n {
-            Self::dfs(board, m, n, 0, j);
-            Self::dfs(board, m, n, m - 1, j);
-        }
+        Self::mark_defenders_at_edges(board, rows, cols);
 
-        for i in 0..m {
-            Self::dfs(board, m, n, i, 0);
-            Self::dfs(board, m, n, i, n - 1);
-        }
-
-        for i in 0..m {
-            for j in 0..n {
-                if board[i][j] == 'W' {
-                    board[i][j] = 'O';
-                } else if board[i][j] == 'O' {
-                    board[i][j] = 'X';
+        for i in 0..rows {
+            for j in 0..cols {
+                if board[i as usize][j as usize] == Self::DEFENDER_MARKED {
+                    board[i as usize][j as usize] = Self::DEFENDER;
+                } else if board[i as usize][j as usize] == Self::DEFENDER {
+                    board[i as usize][j as usize] = Self::ATTACKER;
                 }
             }
         }

@@ -10,21 +10,23 @@
  * };
  */
 class Solution {
-    int dfs(TreeNode* curr, int curr_sum) {
+    static int dfs(TreeNode* curr, const int prev_sum) {
         if (curr == nullptr) {
             return 0;
         }
 
-        if (curr->left == nullptr && curr->right == nullptr) {
-            return curr_sum * 10 + curr->val;
+        const int curr_sum = prev_sum * 10 + curr->val;
+        const bool is_leaf = curr->left == nullptr && curr->right == nullptr;
+
+        if (is_leaf) {
+            return curr_sum;
         }
 
-        return dfs(curr->left, curr_sum * 10 + curr->val) +
-               dfs(curr->right, curr_sum * 10 + curr->val);
+        return dfs(curr->left, curr_sum) + dfs(curr->right, curr_sum);
     }
 
 public:
-    int sumNumbers(TreeNode* root) {
+    static int sumNumbers(TreeNode* root) {
         return dfs(root, 0);
     }
 };
