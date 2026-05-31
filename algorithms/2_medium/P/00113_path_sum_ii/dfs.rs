@@ -24,30 +24,33 @@ impl Solution {
         temp: &mut Vec<i32>,
         curr_node_rc_opt: Option<&Rc<RefCell<TreeNode>>>,
         target_sum: i32,
-        mut curr_sum: i32,
+        prev_sum: i32,
     ) {
         if let Some(curr_node_rc) = curr_node_rc_opt {
             let curr_node = curr_node_rc.borrow();
-            curr_sum += curr_node.val;
+
             temp.push(curr_node.val);
 
-            if curr_node.left.is_none() && curr_node.right.is_none() {
-                if curr_sum == target_sum {
-                    res.push(temp.clone());
-                }
+            let is_leaf = curr_node.left.is_none() && curr_node.right.is_none();
+            let curr_sum = prev_sum + curr_node.val;
+
+            if is_leaf && curr_sum == target_sum {
+                res.push(temp.clone());
             }
 
             Self::dfs(res, temp, curr_node.left.as_ref(), target_sum, curr_sum);
             Self::dfs(res, temp, curr_node.right.as_ref(), target_sum, curr_sum);
 
             temp.pop();
-        }        
+        }
     }
 
     pub fn path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
         let mut res: Vec<Vec<i32>> = Vec::new();
         let mut temp: Vec<i32> = Vec::new();
-        Self::dfs(&mut res, &mut temp, root.as_ref(), target_sum, 0);
+        let curr_sum = 0_i32;
+
+        Self::dfs(&mut res, &mut temp, root.as_ref(), target_sum, curr_sum);
 
         res
     }

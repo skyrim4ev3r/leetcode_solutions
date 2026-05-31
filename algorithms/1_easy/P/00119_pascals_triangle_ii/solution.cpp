@@ -1,28 +1,28 @@
 class Solution {
 public:
-    vector<int> getRow(int numIndex) {
-        vector<int> res;
-        res.push_back(1);
-        const size_t len{static_cast<size_t>(numIndex) + 1};
+    static vector<int> getRow(int numIndex) {
+        const size_t final_len = 1 + static_cast<size_t>(numIndex);
 
-        while (res.size() != len) {
-            const size_t curr_len{res.size()};
-            vector<int> tmp;
-            tmp.reserve(curr_len + 1);
+        vector<int> curr;
+        curr.reserve(final_len);
+        curr.push_back(1);
 
-            for (size_t i{0}; i < curr_len + 1; ++i) {
-                if (i == 0) {
-                    tmp.push_back(res[0]);
-                } else if (i == curr_len) {
-                    tmp.push_back(res[i - 1]);
-                } else {
-                    tmp.push_back(res[i] + res[i - 1]);
-                }
+        vector<int> next;
+        next.reserve(final_len);
+
+        while (curr.size() != final_len) {
+            const size_t curr_len = curr.size();
+
+            next.clear();
+            next.push_back(1); // First element always 1
+            for (size_t i = 1; i < curr_len; ++i) {
+                next.push_back(curr[i] + curr[i - 1]);
             }
-
-            res = std::move(tmp);
+            next.push_back(1); // Last element always 1
+ 
+            std::swap(curr, next);
         }
 
-        return res;
+        return curr;
     }
 };

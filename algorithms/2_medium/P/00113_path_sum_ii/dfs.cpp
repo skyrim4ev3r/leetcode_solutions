@@ -10,34 +10,32 @@
  * };
  */
 class Solution {
-    void dfs(
-        vector<vector<int>> &res,
-        vector<int> &temp,
-        TreeNode* curr,
-        int target_sum,
-        int curr_sum
-    ) {
-        if (curr == nullptr) {
+    static void dfs(vector<vector<int>> &res, vector<int> &temp, TreeNode* curr_node, int target_sum, int prev_sum) {
+        if (curr_node == nullptr) {
             return;
         }
 
-        curr_sum += curr->val;
-        temp.push_back(curr->val);
-        if (curr->left == nullptr && curr->right == nullptr) {
-            if (curr_sum == target_sum) {
-                res.push_back(temp);
-            }
+        temp.push_back(curr_node->val);
+
+        const bool is_leaf = (curr_node->left == nullptr) && (curr_node->right == nullptr);
+        const int curr_sum = prev_sum + curr_node->val;
+
+        if (is_leaf && curr_sum == target_sum) {
+            res.push_back(temp);
         }
 
-        dfs(res, temp, curr->left, target_sum, curr_sum);
-        dfs(res, temp, curr->right, target_sum, curr_sum);
+        dfs(res, temp, curr_node->left, target_sum, curr_sum);
+        dfs(res, temp, curr_node->right, target_sum, curr_sum);
+
         temp.pop_back();
     }
 public:
-    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<vector<int>> res{};
-        vector<int> temp{};
-        dfs(res, temp, root, targetSum, 0);
+    static vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        auto res = vector<vector<int>>();
+        auto temp = vector<int>();
+        const int curr_sum = 0;
+
+        dfs(res, temp, root, targetSum, curr_sum);
 
         return res;
     }
