@@ -1,9 +1,9 @@
 class Solution {
 public:
-    int singleNumber(vector<int>& nums) {
-        int res{0};
+    static int singleNumber(const vector<int>& nums) {
+        int res = 0;
 
-        for (const int &num: nums) {
+        for (const int num: nums) {
             res ^= num;
         }
 

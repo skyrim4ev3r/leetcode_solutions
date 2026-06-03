@@ -1,27 +1,31 @@
-const int INPUT_BITS{ 32 };
+constexpr size_t INT_BITS = (sizeof(int) * CHAR_BIT);
 
 class Solution {
 public:
-    static int singleNumber(vector<int>& nums) {
-        int32_t res{ 0 };
-        array<int32_t, INPUT_BITS> freqs_bits{};
+    int singleNumber(vector<int>& nums) {
+        const size_t len = nums.size();
+        unsigned int res = 0;
+        unsigned int freqs_bits[INT_BITS] = { 0 };
 
-        for (const auto& num : nums) {
-            for (size_t i{ 0 }; i < INPUT_BITS; ++i) {
-                if ((num & (1 << i)) != 0) {
-                    freqs_bits[i] += 1;
+        for (size_t i = 0; i < len; i += 1) {
+            const unsigned int num = static_cast<unsigned int>(nums[i]);
+
+            for (size_t bit_pos = 0; bit_pos < INT_BITS; bit_pos += 1) {
+                const unsigned int mask = 1u << bit_pos;
+
+                if ((num & mask) != 0) {
+                    freqs_bits[bit_pos] += 1;
                 }
             }
         }
 
-        for (size_t i{ 0 }; const auto& freq : freqs_bits) {
-            if (freq % 3 != 0) {
-                res |= (1 << i);
+        for (size_t bit_pos = 0; bit_pos < INT_BITS; bit_pos += 1) {
+            if (freqs_bits[bit_pos] % 3 != 0) {
+                const unsigned int mask = 1u << bit_pos;
+                res |= mask;
             }
-
-            ++i;
         }
 
-        return res;
+        return static_cast<int>(res);
     }
 };
