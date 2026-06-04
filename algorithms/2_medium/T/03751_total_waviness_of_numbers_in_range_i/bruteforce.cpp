@@ -1,28 +1,42 @@
 class Solution {
+    static inline int calc_wave_num(int n)
+    {
+        if (n < 100) {
+            return 0;
+        }
+
+        int count = 0;
+
+        int c = n % 10;
+        n /= 10;
+        int b = n % 10;
+        n /= 10;
+        int a = n % 10;
+        n /= 10;
+
+        while (true) {
+            if ((b > a && b > c) || (b < a && b < c)) {
+                count += 1;
+            }
+
+            if (n == 0) { 
+                break;
+            }
+
+            c = b;
+            b = a;
+            a = n % 10;
+            n /= 10;
+        }
+
+        return count;
+    }
 public:
-    int totalWaviness(int num1, int num2) {
-        vector<int> digits;
-        digits.reserve(6);
-        int count{0};
+    static int totalWaviness(const int num1, const int num2) {
+        int count = 0;
 
-        for (int i{num1}; i <= num2; ++i) {
-            int temp{i};
-            digits.clear();
-
-            while (temp > 0) {
-                digits.push_back(temp % 10);
-                temp /= 10;
-            }
-
-            const size_t len{digits.size()};
-            for (size_t i{1}; i + 1 < len; ++i) {
-                if (
-                    (digits[i] > digits[i - 1] && digits[i] > digits[i + 1]) ||
-                    (digits[i] < digits[i - 1] && digits[i] < digits[i + 1])
-                ) {
-                    count += 1;
-                }
-            }
+        for (int i = num1; i <= num2; i += 1) {
+            count += calc_wave_num(i);
         }
 
         return count;
