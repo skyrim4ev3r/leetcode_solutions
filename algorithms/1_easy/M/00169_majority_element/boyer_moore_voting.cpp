@@ -1,10 +1,10 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
-        int majority_candidate{0};
-        int count{0};
+    static int majorityElement(const vector<int>& nums) {
+        int majority_candidate = 0;
+        int count = 0;
 
-        for (const int &num: nums) {
+        for (const auto num : nums) {
             if (count == 0) {
                 majority_candidate = num;
                 count = 1;

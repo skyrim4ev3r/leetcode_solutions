@@ -1,24 +1,27 @@
 impl Solution {
     pub fn majority_element(mut nums: Vec<i32>) -> i32 {
-
         nums.sort_unstable();
 
         let len = nums.len();
-        let half = (len as i32) / 2;
-        let mut count = 1_i32;
+        let mut max_freq = 0;
+        let mut max_freq_num = 0;
+        let mut curr_freq = 0;
+        let mut curr_num = 0;
 
-        for i in 1..len {
-            if nums[i-1] == nums[i] {
-                count += 1;
+        for num in nums.into_iter() {
+            if curr_num == num {
+                curr_freq += 1;
             } else {
-                count = 1;
+                curr_num = num;
+                curr_freq = 1;
             }
 
-            if count > half {
-                return nums[i];
+            if curr_freq > max_freq {
+                max_freq = curr_freq;
+                max_freq_num = curr_num;
             }
         }
 
-        nums[0]
+        return max_freq_num;
     }
 }

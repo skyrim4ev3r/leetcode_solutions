@@ -1,26 +1,28 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
-
+    static int majorityElement(vector<int>& nums) {
         sort(nums.begin(), nums.end());
 
-        size_t len{nums.size()};
-        int half{static_cast<int>(len) / 2};
-        int count{1};
+        const size_t len = nums.size();
+        int max_freq = 0;
+        int max_freq_num = 0;
+        int curr_freq = 0;
+        int curr_num = 0;
 
-        for (size_t i{1}; i < len; ++i) {
-            if (nums[i - 1] == nums[i]) {
-                count += 1;
+        for (const auto num : nums) {
+            if (curr_num == num) {
+                curr_freq += 1;
             } else {
-                count = 1;
+                curr_num = num;
+                curr_freq = 1;
             }
 
-            if (count > half) {
-                return nums[i];
+            if (curr_freq > max_freq) {
+                max_freq = curr_freq;
+                max_freq_num = curr_num;
             }
         }
 
-        return nums[0];
-
+        return max_freq_num;
     }
 };
