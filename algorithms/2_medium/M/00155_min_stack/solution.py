@@ -9,7 +9,7 @@ class MinStack:
 
         if not self.min_stack or self.min_stack[-1] >= val:
             self.min_stack.append(val)
-
+        
     def pop(self) -> None:
         val = self.stack.pop()
 
@@ -20,10 +20,7 @@ class MinStack:
         return self.stack[-1]
 
     def getMin(self) -> int:
-        if self.min_stack:
-            return self.min_stack[-1]
-
-        return self.stack[-1]
+        return self.min_stack[-1] # min_stack is never empty when stack is non‑empty
 
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()

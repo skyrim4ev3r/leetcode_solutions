@@ -26,11 +26,7 @@ public:
     }
 
     int getMin() {
-        if (!min_stack.empty()) {
-            return min_stack.top();
-        }
-
-        return stack.top();
+        return min_stack.top(); // min_stack is never empty when stack is non‑empty
     }
 };
 

@@ -1,18 +1,41 @@
 class Solution {
 public:
-    string reverseWords(string s) {
-        istringstream ss(string(s.rbegin(), s.rend())); // reverse input "ab cd ef" to "fe dc ba"
-        string word;
-        string s_rev{};
+    static string reverseWords(string& s) {
+        const size_t len = s.size();
+        size_t left = 0;
+        size_t write_idx = 0;
 
-        while (ss >> word) {
-            if (!s_rev.empty()) {
-                s_rev.push_back(' ');
+        while (true) {
+            while (left < len && s[left] == ' ') {
+                left += 1;
             }
 
-            s_rev.append(word.rbegin(), word.rend()); // Now reverse each word in "fe dc ba" to "ef cd ab"
+            if (left == len) {
+                break;
+            }
+
+            size_t right = left;
+            while (right < len && s[right] != ' ') {
+                right += 1;
+            }
+
+            std::reverse(s.begin() + left, s.begin() + right);
+
+            if (write_idx > 0) {
+                s[write_idx] = ' ';
+                write_idx += 1;
+            }
+
+            while (left != right) {
+                s[write_idx] = s[left];
+                left += 1;
+                write_idx += 1;
+            }
         }
 
-        return s_rev;
+        s.resize(write_idx);
+        std::reverse(s.begin(), s.end());
+
+        return std::move(s);
     }
 };

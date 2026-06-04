@@ -1,19 +1,18 @@
 class Solution {
 public:
-    int findMin(vector<int>& nums) {
-
-        size_t left{0};
-        size_t right{nums.size() - 1};
-        int min_val{INT_MAX};
+    static int findMin(const vector<int>& nums) {
+        ptrdiff_t left = 0;
+        ptrdiff_t right = static_cast<ptrdiff_t>(nums.size()) - 1;
+        int min_val = numeric_limits<int>::max();
 
         while (left <= right) {
-            size_t mid{(right + left) / 2};
+            const ptrdiff_t mid = left + (right - left) / 2;
 
             if (nums[left] <= nums[mid]) {
-                min_val = min(min_val, nums[left]);
+                min_val = std::min(min_val, nums[left]);
                 left = mid + 1;
             } else {
-                min_val = min(min_val, nums[mid]);
+                min_val = std::min(min_val, nums[mid]);
                 right = mid - 1;
             }
         }

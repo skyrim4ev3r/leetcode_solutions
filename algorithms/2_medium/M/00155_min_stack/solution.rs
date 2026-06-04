@@ -42,11 +42,7 @@ impl MinStack {
     }
 
     fn get_min(&self) -> i32 {
-        if let Some(min_val) = self.min_stack.last() {
-            return *min_val;
-        }
-
-        *self.stack.last().unwrap()
+        *self.min_stack.last().unwrap()  // min_stack is never empty when stack is non‑empty
     }
 }
 
