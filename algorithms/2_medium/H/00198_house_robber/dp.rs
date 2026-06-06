@@ -1,21 +1,12 @@
 impl Solution {
-    pub fn rob(mut nums: Vec<i32>) -> i32 {
-        let len = nums.len();
+    pub fn rob(nums: Vec<i32>) -> i32 {
+        let (mut prev_prev, mut prev, mut curr) = (0_i32, 0_i32, 0_i32);
 
-        if len == 1 {
-            return nums[0];
+        for num in nums.into_iter() {
+            let next = num + std::cmp::max(prev, prev_prev);
+            (prev_prev, prev, curr) = (prev, curr, next);
         }
 
-        if len == 2 {
-            return nums[0].max(nums[1]);
-        }
-
-        nums[2] += nums[0];
-
-        for i in 3..len {
-            nums[i] += nums[i - 2].max(nums[i - 3]);
-        }
-
-        nums[len - 1].max(nums[len - 2])
+        std::cmp::max(curr, prev)
     }
 }

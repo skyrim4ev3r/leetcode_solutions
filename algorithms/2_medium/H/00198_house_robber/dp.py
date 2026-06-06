@@ -1,16 +1,9 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        n = len(nums)
+        prev_prev, prev, curr = (0, 0, 0)
 
-        if n == 1:
-            return nums[0]
+        for num in nums:
+            next_val = num + max(prev, prev_prev)
+            prev_prev, prev, curr = (prev, curr, next_val)
 
-        if n == 2:
-            return max(nums[0], nums[1])
-
-        nums[2] += nums[0]
-
-        for i in range(3, n):
-            nums[i] += max(nums[i - 2], nums[i - 3])
-
-        return max(nums[n - 1], nums[n - 2])
+        return max(curr, prev)

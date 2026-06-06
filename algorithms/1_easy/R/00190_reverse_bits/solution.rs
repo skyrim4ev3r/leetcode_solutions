@@ -1,12 +1,13 @@
 impl Solution {
-    pub fn reverse_bits(mut n: i32) -> i32 {
-        let mut res = 0_i32;
+    pub fn reverse_bits(n: i32) -> i32 {
+        let mut res = 0_u32;
+        let mut num = n as u32;
 
-        for i in 0..32 {
-            res = (res << 1) | (n & 1);
-            n = n >> 1;
+        for _ in 0..i32::BITS {
+            res = (res << 1) | (num & 1);
+            num >>= 1;
         }
 
-        res
+        res as i32
     }
 }

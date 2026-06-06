@@ -1,20 +1,15 @@
 impl Solution {
-    pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {
-        let len = nums.len();
-        let mut res = vec![0_i32; len];
+    pub fn left_right_difference(mut nums: Vec<i32>) -> Vec<i32> {
+        let mut sum_to_right = nums.iter().map(|x| *x).sum::<i32>();
+        let mut sum_to_left = 0_i32;
 
-        let mut sum = 0_i32;
-        for i in 0..len {
-            res[i] += sum;
-            sum += nums[i];
+        for num_ref in nums.iter_mut()  {
+            let original_val = *num_ref;
+            sum_to_right -= original_val;
+            *num_ref = (sum_to_right - sum_to_left).abs();
+            sum_to_left += original_val;
         }
 
-        sum = 0;
-        for i in (0..len).rev() {
-            res[i] = (res[i] - sum).abs();
-            sum += nums[i];
-        }
-
-        res
+        nums
     }
 }

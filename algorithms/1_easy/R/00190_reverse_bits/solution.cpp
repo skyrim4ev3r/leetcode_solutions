@@ -1,14 +1,16 @@
+constexpr size_t INT_BITS = sizeof(int) * CHAR_BIT;
+
 class Solution {
 public:
-    static int32_t reverseBits(int32_t n) {
-        int32_t res{ 0 };
+    int reverseBits(int n) {
+        unsigned int res = 0u;
+        unsigned int num = static_cast<unsigned int>(n);
 
-        for (int32_t i{ 0 }; i < 32; ++i) {
-            res = (res << 1) | (n & 1);
-            n = n >> 1;
+        for (size_t i = 0; i < INT_BITS; i += 1) {
+            res = (res << 1) | (num & 1);
+            num >>= 1;
         }
 
-        return res;
+        return (int) res;
     }
 };
-

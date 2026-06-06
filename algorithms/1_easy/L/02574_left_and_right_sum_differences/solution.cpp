@@ -1,21 +1,16 @@
 class Solution {
 public:
-    vector<int> leftRightDifference(vector<int>& nums) {
-        int sum{0};
-        const size_t len{nums.size()};
-        vector<int>res(len, 0);
+    static vector<int> leftRightDifference(vector<int>& nums) {
+        int sum_to_right = std::reduce(nums.begin(), nums.end(), 0);
+        int sum_to_left = 0;
 
-        for (size_t i{0}; i < len; ++i)  {
-            res[i] += sum;
-            sum += nums[i];
+        for (auto& num_ref : nums)  {
+            const int original_val = num_ref;
+            sum_to_right -= original_val;
+            num_ref = std::abs(sum_to_right - sum_to_left);
+            sum_to_left += original_val;
         }
 
-        sum = 0;
-        for (size_t i{len - 1}; i < len; --i)  {
-            res[i] = abs(res[i] - sum);
-            sum += nums[i];
-        }
-
-        return res;
+        return std::move(nums);
     }
 };
