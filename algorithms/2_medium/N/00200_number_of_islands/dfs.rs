@@ -1,36 +1,29 @@
 impl Solution {
-    // Using usize::MAX as -1
-    const DIRECTIONS: [(isize, isize); 4] = [(0, 1), (0, -1), (1, 0), (-1, 0)];
+    const WATER: char = '0';
+    const LAND: char = '1';
+    const LAND_VISITED: char = '2';
 
-    fn dfs(grid: &mut Vec<Vec<char>>, rows: usize, cols: usize, i: usize, j: usize) {
-        if grid[i][j] == '0' {
+    fn dfs(grid: &mut Vec<Vec<char>>, rows: isize, cols: isize, i: isize, j : isize) {
+        if i < 0 || j < 0 || i >= rows || j >= cols || grid[i as usize][j as usize] != Self::LAND {
             return;
         }
 
-        grid[i][j] = '0';
+        grid[i as usize][j as usize] = Self::LAND_VISITED;
 
-        for &(dx, dy) in Self::DIRECTIONS.iter() {
-            let new_i = (i as isize + dx) as usize;
-            let new_j = (j as isize + dy) as usize;
-
-            if new_i >= rows || new_j >= cols {
-                continue;
-            }
-
-            Self::dfs(grid, rows, cols, new_i, new_j);
-        }
+        Self::dfs(grid, rows, cols, i + 1, j);
+        Self::dfs(grid, rows, cols, i - 1, j);
+        Self::dfs(grid, rows, cols, i, j + 1);
+        Self::dfs(grid, rows, cols, i, j - 1);
     }
 
     pub fn num_islands(mut grid: Vec<Vec<char>>) -> i32 {
-        
-        let rows = grid.len();
-        let cols = grid[0].len();
-
         let mut count = 0_i32;
+        let rows = grid.len() as isize;
+        let cols = grid[0].len() as isize;
 
         for i in 0..rows {
             for j in 0..cols {
-                if grid[i][j] == '1' {
+                if grid[i as usize][j as usize] == Self::LAND {
                     count += 1;
                     Self::dfs(&mut grid, rows, cols, i, j);
                 }

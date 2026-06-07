@@ -1,13 +1,15 @@
 impl Solution {
-    pub fn range_bitwise_and(mut left: i32, mut right: i32) -> i32 {
-        let mut shift_count = 0_i32;
+    pub fn range_bitwise_and(signed_left: i32, signed_right: i32) -> i32 {
+        let mut shift = 0_u32;
+        let mut left = signed_left as u32;
+        let mut right = signed_right as u32;
 
         while right != left {
-            shift_count += 1;
+            shift += 1;
             right = right >> 1;
             left = left >> 1;
         }
 
-        right << shift_count
+        (right << shift) as i32
     }
 }

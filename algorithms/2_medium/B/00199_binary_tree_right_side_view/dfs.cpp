@@ -10,7 +10,7 @@
  * };
  */
 class Solution {
-    void dfs(vector<int> &res, TreeNode* curr, size_t depth) {
+    static void dfs(vector<int> &res, TreeNode* curr, const size_t depth) {
         if (curr == nullptr) {
             return;
         }
@@ -25,8 +25,8 @@ class Solution {
         dfs(res, curr->right, depth + 1);
     }
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> res;
+    static vector<int> rightSideView(TreeNode* root) {
+        auto res = vector<int>();
 
         dfs(res, root, 0);
 

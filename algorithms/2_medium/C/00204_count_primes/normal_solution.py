@@ -10,7 +10,7 @@ class Solution:
 
         for i in range(ceil_sqrt_n + 1):
             if is_prime[i]:
-                for j in range(2 * i, n, i):
+                for j in range(i * i, n, i):
                     is_prime[j] = False
 
         return is_prime.count(True)
