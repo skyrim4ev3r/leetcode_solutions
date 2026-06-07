@@ -1,25 +1,26 @@
 class Solution {
 public:
-    int minSubArrayLen(int target, vector<int>& nums) {
-        const size_t len{ nums.size() };
-        size_t res_len{ len + 1 };
-        size_t left{ 0 };
-        int curr_sum{ 0 };
+    static int minSubArrayLen(const int target, const vector<int>& nums) {
+        assert(nums.size() > 0);
+        assert(target > 0);
 
-        for (size_t right{ 0 }; right < len; ++right) {
+        const size_t len = nums.size();
+        size_t min_width = len + 1;
+        size_t left = 0;
+        int curr_sum = 0;
+
+        for (size_t right = 0; right < len; right += 1) {
+            assert(nums[right] > 0);
+            assert(numeric_limits<int>::max() - nums[right] >= curr_sum);
             curr_sum += nums[right];
 
             while (left <= right && curr_sum >= target) {
-                res_len = std::min(res_len, right - left + 1);
+                min_width = std::min(min_width, right - left + 1);
                 curr_sum -= nums[left];
                 left += 1;
             }
         }
 
-        if (res_len == len + 1) {
-            return 0;
-        }
-
-        return static_cast<int>(res_len);
+        return static_cast<int>(min_width == len + 1 ? 0 : min_width);
     }
 };

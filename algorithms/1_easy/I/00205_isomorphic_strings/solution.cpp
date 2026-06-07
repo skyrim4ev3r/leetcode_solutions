@@ -1,30 +1,35 @@
+constexpr ptrdiff_t table_size = 256;
+constexpr ptrdiff_t unseen = -1;
+
 class Solution {
 public:
-    bool isIsomorphic(string s, string t) {
-        array<int, 128> first_seen_s;
-        for (int& f : first_seen_s) {
-            f = -1;
+    static bool isIsomorphic(const string& s, const string& t) {
+        if (s.size() != t.size()) {
+            return false;
         }
 
-        array<int, 128> first_seen_t;
-        for (int& f : first_seen_t) {
-            f = -1;
+        const ptrdiff_t len = static_cast<ptrdiff_t>(s.size());
+        ptrdiff_t s_first_seen[table_size];
+        ptrdiff_t t_first_seen[table_size];
+
+        for (ptrdiff_t i = 0; i < table_size; i++) {
+            s_first_seen[i] = unseen;
+            t_first_seen[i] = unseen;
         }
 
-        const size_t len{s.size()};
-        for (size_t i{0}; i < len; ++i) {
-            const size_t ch_s_as_index{static_cast<size_t>(s[i])};
-            const size_t ch_t_as_index{static_cast<size_t>(t[i])};
+        for (ptrdiff_t i = 0; i < len; i += 1) {
+            const ptrdiff_t ch_s_idx = static_cast<unsigned char>(s[i]);
+            const ptrdiff_t ch_t_idx = static_cast<unsigned char>(t[i]);
 
-            if (first_seen_s[ch_s_as_index] == -1) {
-                first_seen_s[ch_s_as_index] = static_cast<int>(i);
+            if (s_first_seen[ch_s_idx] == unseen) {
+                s_first_seen[ch_s_idx] = i;
             }
 
-            if (first_seen_t[ch_t_as_index] == -1) {
-                first_seen_t[ch_t_as_index] = static_cast<int>(i);
+            if (t_first_seen[ch_t_idx] == unseen) {
+                t_first_seen[ch_t_idx] = i;
             }
 
-            if (first_seen_s[ch_s_as_index] != first_seen_t[ch_t_as_index]) {
+            if (s_first_seen[ch_s_idx] != t_first_seen[ch_t_idx]) {
                 return false;
             }
         }
