@@ -1,28 +1,28 @@
 impl Solution {
     #[inline(always)]
-    pub fn rob_helper(dp: &mut Vec<i32>) -> i32 {
-        let len = dp.len();
+    pub fn rob_helper(slice: &[i32]) -> i32 {
+        let (mut prev_prev, mut prev, mut curr) = (0_i32, 0_i32, 0_i32);
 
-        dp[2] += dp[0];
-
-        for i in 3..len {
-            dp[i] += dp[i - 2].max(dp[i - 3]);
+        for &num in slice {
+            debug_assert!(num >= 0);
+            let next = num + prev.max(prev_prev);
+            (prev_prev, prev, curr) = (prev, curr, next);
         }
 
-        dp[len - 1].max(dp[len - 2])
+        prev.max(curr)
     }
 
-    pub fn rob(mut nums: Vec<i32>) -> i32 {
-        if nums.len() <= 3 {
-            return nums.into_iter().max().unwrap();
+    pub fn rob(nums: Vec<i32>) -> i32 {
+        let len = nums.len();
+        debug_assert!(len > 0);
+
+        if len == 1 {
+            debug_assert!(nums[0] >= 0);
+            return nums[0];
         }
 
-        let mut dp1 = nums[1..].to_vec();
-        nums.pop();
-        let mut dp2 = nums;
-
-        let max_dp1 = Self::rob_helper(&mut dp1);
-        let max_dp2 = Self::rob_helper(&mut dp2);
+        let max_dp1 = Self::rob_helper(&nums[0..len - 1]);
+        let max_dp2 = Self::rob_helper(&nums[1..len]);
 
         max_dp1.max(max_dp2)
     }
