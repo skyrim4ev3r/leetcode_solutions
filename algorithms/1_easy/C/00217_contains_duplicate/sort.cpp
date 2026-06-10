@@ -1,10 +1,10 @@
 class Solution {
 public:
-    bool containsDuplicate(vector<int>& nums) {
-        const size_t len{nums.size()};
-        sort(nums.begin(),nums.end());
+    static bool containsDuplicate(vector<int>& nums) {
+        const ptrdiff_t len = std::ssize(nums);
+        sort(nums.begin(), nums.end());
 
-        for (size_t i{1}; i < len; ++i) {
+        for (ptrdiff_t i = 1; i < len; i += 1) {
             if (nums[i - 1] == nums[i]) {
                 return true;
             }

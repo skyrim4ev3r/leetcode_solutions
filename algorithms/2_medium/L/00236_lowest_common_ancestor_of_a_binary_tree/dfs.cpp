@@ -7,7 +7,6 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-
 class Solution {
     TreeNode* dfs(TreeNode* curr, TreeNode* p, TreeNode* q) {
         if (curr == nullptr || curr == p || curr == q) {

@@ -1,13 +1,13 @@
 class Solution {
 public:
-    static bool containsNearbyDuplicate(const vector<int>& nums, int k) {
-        const size_t k_usize{static_cast<size_t>(k)};
-        const size_t len{nums.size()};
-        unordered_set<int> hashset{};
+    static bool containsNearbyDuplicate(const vector<int>& nums, int k_i32) {
+        const ptrdiff_t len = std::ssize(nums);
+        const ptrdiff_t k = k_i32;
+        auto hashset = unordered_set<int>();
 
-        for (size_t i{0}; i < nums.size(); ++i) {
-            if (i > k_usize) {
-                hashset.erase(nums[i - k_usize - 1]);
+        for (ptrdiff_t i = 0; i < len; i += 1) {
+            if (i > k) {
+                hashset.erase(nums[i - k - 1]);
             }
 
             if (!hashset.insert(nums[i]).second) {
