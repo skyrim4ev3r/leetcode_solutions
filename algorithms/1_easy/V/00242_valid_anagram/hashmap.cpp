@@ -1,25 +1,22 @@
 class Solution {
 public:
-    bool isAnagram(string s, string t) {
-
+    static bool isAnagram(const string& s, const string& t) {
         if (s.size() != t.size()) {
             return false;
         }
 
-        unordered_map<char, int> freqs;
+        auto freqs = unordered_map<char, int>();     
 
-        for (const char &ch: s) {
+        for (const char ch : s) {
             freqs[ch] += 1;
         }
 
         for (const char ch : t) {
-            auto it = freqs.find(ch);
-            if (it != freqs.end()) {
-                it->second -= 1;
-                if (it->second < 0) {
-                    return false;
-                }
-            } else {
+            freqs[ch] -= 1;
+        }
+
+        for (const auto [_, freq] : freqs) {
+            if (freq != 0) {
                 return false;
             }
         }

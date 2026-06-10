@@ -1,27 +1,20 @@
 impl Solution {
-    pub fn is_anagram(s: String, t: String) -> bool {
+    const FREQS_LEN: usize = 26;
 
-        if (s.len() != t.len()) {
+    pub fn is_anagram(s: String, t: String) -> bool {
+        if s.len() != t.len() {
             return false;
         }
 
-        const freqs_len: usize = 26_usize;
-        let mut freqs = [0_i32; freqs_len];
+        let mut freqs = [0_i32; Self::FREQS_LEN];
 
-        for byte in s.into_bytes().into_iter() {
-            freqs[(byte - b'a') as usize] += 1;
+        for (byte1, byte2) in s.into_bytes().into_iter().zip(t.into_bytes().into_iter()) {
+            debug_assert!(byte1 >= b'a' && byte1 <= b'z');
+            debug_assert!(byte2 >= b'a' && byte2 <= b'z');
+            freqs[(byte1 - b'a') as usize] += 1;
+            freqs[(byte2 - b'a') as usize] -= 1;
         }
 
-        for byte in t.into_bytes().into_iter() {
-            let freqs_index = (byte - b'a') as usize;
-
-            freqs[freqs_index] -= 1;
-
-            if freqs[freqs_index] < 0 {
-                return false;
-            }
-        }
-
-        true
+        freqs.into_iter().all(|x| x == 0)
     }
 }
