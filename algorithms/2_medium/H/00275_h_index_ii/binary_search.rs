@@ -1,19 +1,20 @@
 impl Solution {
     pub fn h_index(citations: Vec<i32>) -> i32 {
-        let len = citations.len();
-        let mut left = 0_usize;
-        let mut right = len - 1;
+        let len = citations.len() as isize;
+        debug_assert!(len > 0);
+        let mut lo = 0_isize;
+        let mut hi = len - 1;
         let mut res = 0_i32;
 
-        while left <= right && right < len {
-            let mid = left + (right - left) / 2;
+        while lo <= hi {
+            let mid = lo + (hi - lo) / 2;
             let least_valid = (len - mid) as i32;
 
-            if citations[mid] >= least_valid {
+            if citations[mid as usize] >= least_valid {
                 res = least_valid;
-                right = mid - 1;
+                hi = mid - 1;
             } else {
-                left = mid + 1;
+                lo = mid +1;
             }
         }
 

@@ -1,28 +1,23 @@
 impl Solution {
     pub fn find_duplicate(mut nums: Vec<i32>) -> i32 {
-
-        let mut res = -1_i32;
-        let mut index = 0_usize;
+        debug_assert!(nums.len() > 0);
         let len = nums.len();
 
-        while index < len {
-            let num_as_index = (nums[index].abs() - 1) as usize;
-
-            if nums[num_as_index] > 0 {
-                nums[num_as_index] *= -1;
+        for i in 0..len {
+            let nums_i_as_idx = (nums[i].abs() - 1) as usize;
+            debug_assert!(nums_i_as_idx < len);
+            if nums[nums_i_as_idx] > 0 {
+                nums[nums_i_as_idx] *= -1;
             } else {
-                res = nums[index].abs();
-                break;
+                for j in 0..i {
+                    let nums_j_as_idx = (nums[j].abs() - 1) as usize;
+                    nums[nums_j_as_idx] *= -1;
+                }
+
+                return nums[i];
             }
-
-            index += 1;
         }
 
-        for i in 0..index {
-            let num_as_index = (nums[i].abs() - 1) as usize;
-            nums[num_as_index] *= -1;
-        }
-
-        res
+        unreachable!("Error: no duplicate found\n")
     }
 }

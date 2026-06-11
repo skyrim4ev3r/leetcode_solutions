@@ -1,25 +1,23 @@
 class Solution {
 public:
-    int findDuplicate(vector<int>& nums) {
-        const size_t len{nums.size()};
-        int res{-1};
-        size_t index{0};
+    static int findDuplicate(vector<int>& nums) {
+        const ptrdiff_t len = std::ssize(nums);
+        assert(len > 0);
 
-        for (; index < len ; ++index) {
-            const size_t num_as_index{static_cast<size_t>(abs(nums[index])) - 1};
-            if (nums[num_as_index] > 0) {
-                nums[num_as_index] *= -1;
+        for (ptrdiff_t i = 0; i < len ; i += 1) {
+            assert(abs(nums[i]) - 1 >= 0 && abs(nums[i]) - 1 < len);
+            if (nums[abs(nums[i]) - 1] > 0) {
+                nums[abs(nums[i]) - 1] *= -1;
             } else {
-                res = abs(nums[index]);
-                break;
+                for (ptrdiff_t j = 0; j < i; j += 1) {
+                    nums[abs(nums[j]) - 1] *= -1;
+                }
+
+                return nums[i];
             }
         }
-                
-        for (size_t i{0}; i < index; ++i) {
-            const size_t num_as_index{static_cast<size_t>(abs(nums[i])) - 1};
-            nums[num_as_index] *= -1;
-        }
 
-        return res;
+        cerr << "Error: no duplicate found\n";
+        abort();
     }
 };

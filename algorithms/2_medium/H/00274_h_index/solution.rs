@@ -1,5 +1,6 @@
 impl Solution {
     pub fn h_index(mut citations: Vec<i32>) -> i32 {
+        debug_assert!(citations.len() > 0);
         citations.sort_unstable_by(|a, b| b.cmp(&a));
 
         let mut res = 0_i32;

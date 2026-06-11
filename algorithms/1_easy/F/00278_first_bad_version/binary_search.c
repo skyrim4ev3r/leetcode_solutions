@@ -1,0 +1,21 @@
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+int firstBadVersion(int n)
+{
+    assert(n > 0);
+    int lo = 1;
+    int hi = n;
+
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+
+        if (isBadVersion(mid)) {
+            hi = mid - 1;
+        } else {
+            lo = mid + 1;
+        }
+    }
+
+    return lo;
+}
