@@ -1,38 +1,30 @@
 impl Solution {
     pub fn odd_even_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        if head.is_none() {
-            return None;
-        }
+        let mut odd_dummy = ListNode::new(0);
+        let mut even_dummy = ListNode::new(0);
 
-        let mut odd_head = Some(Box::new(ListNode::new(0)));
-        let mut even_head = Some(Box::new(ListNode::new(0)));
-
-        let mut odd_current = odd_head.as_mut();
-        let mut even_current = even_head.as_mut();
+        let mut odd_prev = &mut odd_dummy;
+        let mut even_prev = &mut even_dummy;
         let mut is_odd = true;
+        let mut curr_bx_opt = head;
 
-        let mut curr = head;
-        while let Some(mut node) = curr {
-            curr = node.next.take();
+        while let Some(mut curr_bx) = curr_bx_opt {
+            let next = curr_bx.next.take();
 
             if is_odd {
-                if let Some(odd) = odd_current {
-                    odd.next = Some(node);
-                    odd_current = odd.next.as_mut();
-                }
+                odd_prev.next = Some(curr_bx);
+                odd_prev = odd_prev.next.as_mut().unwrap();
             } else {
-                if let Some(even) = even_current {
-                    even.next = Some(node);
-                    even_current = even.next.as_mut();
-                }
+                even_prev.next = Some(curr_bx);
+                even_prev = even_prev.next.as_mut().unwrap();
             }
+
+            curr_bx_opt = next;
             is_odd = !is_odd;
         }
 
-        if let Some(odd) = odd_current {
-            odd.next = even_head.unwrap().next.take();
-        }
+        odd_prev.next = even_dummy.next;
 
-        odd_head.unwrap().next
+        odd_dummy.next
     }
 }

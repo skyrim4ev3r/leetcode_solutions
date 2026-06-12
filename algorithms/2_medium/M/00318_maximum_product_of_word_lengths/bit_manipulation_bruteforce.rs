@@ -23,6 +23,6 @@ impl Solution {
             }
         }
 
-        max_product_len as i32
+        max_product_len.try_into().expect("result exceeds i32::MAX")
     }
 }
