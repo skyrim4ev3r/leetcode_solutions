@@ -1,27 +1,21 @@
+constexpr size_t map_len = 256; // Cover all possible unsigned char values (0–255)
+
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
+    static int lengthOfLongestSubstring(const string& s) {
+        const ptrdiff_t len = std::ssize(s);
+        ptrdiff_t last_seen[map_len];
+        std::fill(std::begin(last_seen), std::end(last_seen), -1);
+        ptrdiff_t longest_substr = 0;
+        ptrdiff_t lo = 0;
 
-        const size_t len = s.size();
-        size_t last_seen_index[128];
-        std::fill(last_seen_index, last_seen_index + 128, len);
-
-        size_t max_len{0};
-        size_t left{0};
-
-        for (size_t right{0}; right < len; ++right) {
-
-            size_t char_index = static_cast<size_t>(s[right]);
-
-            if (last_seen_index[char_index] < len) {
-                left = max(left, last_seen_index[char_index] + 1);
-            }
-
-            last_seen_index[char_index] = right;
-
-            max_len = max(max_len, right - left + 1);
+        for (ptrdiff_t hi = 0; hi < len; hi += 1) {
+            const ptrdiff_t idx = static_cast<ptrdiff_t>(static_cast<unsigned char>(s[hi]));
+            lo = std::max(lo, last_seen[idx] + 1);
+            longest_substr = std::max(longest_substr, hi - lo + 1);
+            last_seen[idx] = hi;
         }
 
-        return static_cast<int>(max_len);
+        return static_cast<int>(longest_substr);
     }
 };

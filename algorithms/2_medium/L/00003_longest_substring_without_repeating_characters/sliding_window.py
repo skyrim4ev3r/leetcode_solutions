@@ -1,20 +1,16 @@
+MAP_LEN = 256
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        n = len(s)
+        last_seen = [-1] * MAP_LEN
+        longest_substr = 0
+        lo = 0
 
-        s_len = len(s)
-        last_seen_index = [s_len] * 128
-        max_len = 0
-        left = 0
+        for hi in range(n):
+            idx_last_seen = ord(s[hi])
+            lo = max(lo, last_seen[idx_last_seen] + 1)
+            longest_substr = max(longest_substr, hi - lo + 1)
+            last_seen[idx_last_seen] = hi
 
-        for right in range(s_len):
-
-            char_index = ord(s[right])
-
-            if last_seen_index[char_index] < s_len:
-                left = max(left, last_seen_index[char_index] + 1)
-
-            last_seen_index[char_index] = right
-
-            max_len = max(max_len, right - left + 1)
-
-        return max_len
+        return longest_substr

@@ -3,21 +3,18 @@ impl Solution {
 
     pub fn length_of_longest_substring(s: String) -> i32 {
         let bytes = s.as_bytes();
-        let len = bytes.len();
-        let mut last_seen: [Option<usize>; Solution::MAP_LEN] = [None; Solution::MAP_LEN];
-        let mut max_len = 0_usize;
-        let mut left = 0_usize;
+        let len = bytes.len() as isize;
+        let mut last_seen = [-1_isize; Self::MAP_LEN];
+        let mut longest_substr = 0_isize;
+        let mut lo = 0_isize;
 
-        for right in 0..len {
-            let idx = bytes[right] as usize;
-            if let Some(prev_seen) = last_seen[idx] {
-                left = left.max(prev_seen + 1);
-            }
-            max_len = max_len.max(right - left + 1);
-            last_seen[idx] = Some(right);
+        for hi in 0..len {
+            let idx_last_seen = bytes[hi as usize] as usize;
+            lo = lo.max(last_seen[idx_last_seen] + 1);
+            longest_substr = longest_substr.max(hi - lo + 1);
+            last_seen[idx_last_seen] = hi;
         }
 
-        max_len as i32
-
+        longest_substr as i32
     }
 }
