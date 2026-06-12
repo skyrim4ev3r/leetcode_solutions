@@ -1,21 +1,19 @@
 class NumArray {
-    vector<int>  nums;
+    vector<int> prefix;
 public:
-    NumArray(vector<int>& nums) {
-        this->nums = nums;
-        const size_t len{this->nums.size()};
+    NumArray(const vector<int>& nums) {
+        const ptrdiff_t len = ssize(nums);
+        prefix = vector<int>(len + 1);
+        prefix[0] = 0;
 
-        for (size_t i{1}; i < len; ++i) {
-            this->nums[i] += this->nums[i - 1];
+        for (ptrdiff_t i = 1; i <= len; i += 1) {
+            prefix[i] += nums[i - 1] + prefix[i - 1];
         }
     }
 
     int sumRange(int left, int right) {
-        if (left == 0) {
-            return nums[static_cast<size_t>(right)];
-        }
-
-        return nums[static_cast<size_t>(right)] - nums[static_cast<size_t>(left - 1)];
+        assert(left >= 0 && left <= right && right + 1 < std::ssize(prefix));
+        return prefix[right + 1] - prefix[left];
     }
 };
 
