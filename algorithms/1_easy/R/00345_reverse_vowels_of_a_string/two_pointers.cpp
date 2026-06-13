@@ -1,35 +1,30 @@
 class Solution {
-    inline bool is_vowel(char &c) {
-        if (c=='a' || c=='A' || c=='e' || c=='E' || c=='i' || c=='I' || c=='o' || c=='O' || c=='u' ||c=='U') {
-            return true;
-        }
-
-        return false;
+    static inline bool is_vowel(const char ch) {
+        return ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' || ch == 'i' ||
+               ch == 'I' || ch == 'o' || ch == 'O' || ch == 'u' ||ch == 'U';
     }
+
 public:
-    string reverseVowels(string s) {
-        size_t left{0};
-        size_t right{s.size() - 1};
+    static string reverseVowels(string s) {
+        ptrdiff_t len = std::ssize(s);
+        ptrdiff_t lo = 0;
+        ptrdiff_t hi = len - 1;
 
-        while (left < right) {
-            while (left < right && !is_vowel(s[right])) {
-                right -= 1;
+        while (lo < hi) {
+            while (lo < hi && !is_vowel(s[hi])) {
+                hi -= 1;
             }
 
-            while (left < right && !is_vowel(s[left])) {
-                left += 1;
+            while (lo < hi && !is_vowel(s[lo])) {
+                lo += 1;
             }
 
-            if (left >= right) {
-                break;
-            }
+            const char temp = s[lo];
+            s[lo] = s[hi];
+            s[hi] = temp;
 
-            char temp = s[left];
-            s[left] = s[right];
-            s[right] = temp;
-
-            right -= 1;
-            left += 1;
+            hi -= 1;
+            lo += 1;
         }
 
         return s;

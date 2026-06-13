@@ -1,11 +1,11 @@
 class Solution {
 public:
-    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        unordered_set<int> set1(nums1.begin(), nums1.end());
-        unordered_set<int> set2(nums2.begin(), nums2.end());
-        vector<int> res{};
+    static vector<int> intersection(const vector<int>& nums1, const vector<int>& nums2) {
+        auto set1 = unordered_set<int>(nums1.cbegin(), nums1.cend());
+        auto set2 = unordered_set<int>(nums2.cbegin(), nums2.cend());
+        auto res = vector<int>();
 
-        for (const int& num : set1) {
+        for (const auto num : set1) {
             if (set2.contains(num)) {
                 res.push_back(num);
             }
