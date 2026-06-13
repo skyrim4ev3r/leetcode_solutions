@@ -7,20 +7,19 @@
 
 class Solution:
     def guessNumber(self, n: int) -> int:
+        lo = 1
+        hi = n
 
-        low = 1
-        high = n
-
-        while low <= high:
-            guess_num = (high + low) // 2
+        while lo <= hi:
+            guess_num = lo + (hi - lo) // 2
             guess_result = guess(guess_num)
 
             match guess_result:
-                case 1:
-                    low = guess_num + 1
-                case -1:
-                    high = guess_num - 1
-                case 0:
+                case 1: 
+                    lo = guess_num + 1
+                case -1: 
+                    hi = guess_num - 1
+                case 0: 
                     return guess_num
 
         return -1

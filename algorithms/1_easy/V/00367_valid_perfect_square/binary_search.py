@@ -1,20 +1,18 @@
 class Solution:
     def isPerfectSquare(self, num: int) -> bool:
+        hi = num
+        lo = 1
 
-        high = num
-        low = 1
-
-        while low <= high:
-
-            mid = low + (high - low) // 2
+        while lo <= hi:
+            mid = lo + (hi - lo) // 2
             square_mid = mid * mid
 
             if square_mid == num:
                 return True
 
             if square_mid < num:
-                low = mid + 1
+                lo = mid + 1
             else:
-                high = mid - 1
+                hi = mid - 1
 
         return False

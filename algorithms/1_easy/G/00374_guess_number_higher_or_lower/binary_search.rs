@@ -9,19 +9,18 @@
 
 impl Solution {
     unsafe fn guessNumber(n: i32) -> i32 {
+        let mut lo = 1_i32;
+        let mut hi = n;
 
-        let mut low = 1_i32;
-        let mut high = n;
-
-        while low <= high {
-            let guess_num = low + (high - low) / 2;
+        while lo <= hi {
+            let guess_num = lo + (hi - lo) / 2;
             let guess_result = guess(guess_num);
 
             match guess_result {
-                1 => low = guess_num + 1,
-                -1 => high = guess_num - 1,
-                _ => return guess_num,
-            }
+                1  => lo = guess_num + 1,
+                -1 => hi = guess_num - 1,
+                _  => return guess_num,
+            };
         }
 
         return -1;

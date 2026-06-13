@@ -10,18 +10,17 @@
 class Solution {
 public:
     int guessNumber(int n) {
+        int lo = 1;
+        int hi = n;
 
-        int low{1};
-        int high{n};
-
-        while (low <= high) {
-            int guess_num = low + (high - low) / 2;
-            int guess_result = guess(guess_num);
+        while (lo <= hi) {
+            const int guess_num = lo + (hi - lo) / 2;
+            const int guess_result = guess(guess_num);
 
             if (guess_result == 1) {
-                low = guess_num + 1;
+                lo = guess_num + 1;
             } else if(guess_result == -1) {
-                high = guess_num - 1;
+                hi = guess_num - 1;
             } else {
                 return guess_num;
             }
