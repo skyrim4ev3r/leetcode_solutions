@@ -1,11 +1,11 @@
 class Solution {
 public:
     vector<int> countBits(int n) {
-        vector<int> res;
-        res.reserve(static_cast<size_t>(n + 1));
+        assert(n >= 0 && n != numeric_limits<int>::max());
+        auto res = vector<int>(n + 1, 0);
 
-        for (int i{0}; i <= n; ++i) {
-            res.push_back(__builtin_popcount(i));
+        for (int i = 1; i <= n; i += 1) {
+            res[i] = res[i >> 1] + (i & 1);
         }
 
         return res;

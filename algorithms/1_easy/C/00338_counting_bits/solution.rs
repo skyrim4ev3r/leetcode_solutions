@@ -1,8 +1,12 @@
 impl Solution {
     pub fn count_bits(n: i32) -> Vec<i32> {
-        (0..=n).into_iter().fold(Vec::<i32>::new(), |mut res, i| {
-            res.push(i.count_ones() as i32);
-            res
-        })
+        debug_assert!(n >= 0);
+        let mut res = vec![0; n as usize + 1];
+
+        for i in 0..=n {
+            res[i as usize] = res[(i >> 1) as usize] + (i & 1);
+        }
+
+        res
     }
 }

@@ -1,21 +1,21 @@
 class Solution {
 public:
-    bool increasingTriplet(vector<int>& nums) {
+    static bool increasingTriplet(const vector<int>& nums) {
+        int mid_val = numeric_limits<int>::max();
+        int min_val = numeric_limits<int>::max();
 
-        int prev_valid_min{INT_MAX};
-        int curr_min{INT_MAX};
-
-        for (int &num: nums) {
-            if (num > prev_valid_min) {
+        for (const auto curr_val : nums) {
+            if (curr_val > mid_val) {
                 return true;
             }
 
-            if (num > curr_min) {
-                prev_valid_min = std::min(prev_valid_min, num);
-            } else {
-                curr_min = num;
+            if (curr_val < min_val) {
+                min_val = curr_val;
+            } else if (curr_val > min_val && curr_val < mid_val) {
+                mid_val = curr_val;
             }
         }
+
         return false;
     }
 };

@@ -2,17 +2,16 @@ INT_MAX = sys.maxsize
 
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
+        mid_val = INT_MAX
+        min_val = INT_MAX
 
-        prev_valid_min = INT_MAX
-        curr_min = INT_MAX
-
-        for num in nums:
-            if num > prev_valid_min:
+        for curr_val in nums:
+            if curr_val > mid_val:
                 return True
 
-            if num > curr_min:
-                prev_valid_min = min(prev_valid_min, num)
-            else:
-                curr_min = num
+            if curr_val < min_val:
+                min_val = curr_val
+            elif curr_val > min_val and curr_val < mid_val:
+                mid_val = curr_val
 
         return False

@@ -10,29 +10,28 @@ class Solution:
         rows: int,
         cols: int,
     ) -> int:
-        cache = dp[i][j]
-        if cache != -1:
-            return cache
+        if dp[i * cols + j] != -1:
+            return dp[i * cols + j]
 
-        longest = 1
-        curr_cell = matrix[i][j]
+        cell_val = matrix[i][j]
+        curr = 1
 
         for (dx, dy) in DIRECTIONS:
-            new_i = i + dx
-            new_j = j + dy
+            ni = i + dx
+            nj = j + dy
 
-            if new_i < 0 or new_j < 0 or new_i >= rows or new_j >= cols or matrix[new_i][new_j] >= curr_cell:
+            if ni < 0 or nj < 0 or ni >= rows or nj >= cols or matrix[ni][nj] >= cell_val:
                 continue
 
-            longest = max(longest, 1 + self.dfs(matrix, dp, new_i, new_j, rows, cols))
+            curr = max(curr, 1 + self.dfs(matrix, dp, ni, nj, rows, cols))
 
-        dp[i][j] = longest
-        return longest
+        dp[i * cols + j] = curr
+        return curr
 
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         rows = len(matrix)
         cols = len(matrix[0])
-        dp = [[-1] * cols for _ in range(rows)]
+        dp = [-1] * (cols * rows)
         res = 0
 
         for i in range(rows):

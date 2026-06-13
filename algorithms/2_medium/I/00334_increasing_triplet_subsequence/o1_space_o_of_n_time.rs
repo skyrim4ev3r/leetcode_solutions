@@ -1,18 +1,17 @@
 impl Solution {
     pub fn increasing_triplet(nums: Vec<i32>) -> bool {
+        let mut mid_val = i32::MAX;
+        let mut min_val = i32::MAX;
 
-        let mut prev_valid_min = i32::MAX;
-        let mut curr_min = i32::MAX;
-
-        for num in nums.into_iter() {
-            if num > prev_valid_min {
+        for curr_val in nums {
+            if curr_val > mid_val {
                 return true;
             }
 
-            if num > curr_min {
-                prev_valid_min = prev_valid_min.min(num);
-            } else {
-                curr_min = num;
+            if curr_val < min_val {
+                min_val = curr_val;
+            } else if curr_val > min_val && curr_val < mid_val {
+                mid_val = curr_val;
             }
         }
 
