@@ -1,11 +1,12 @@
 class Solution {
 public:
     static vector<int> lexicalOrder(int n) {
-        vector<int> res;
-        res.reserve(static_cast<size_t>(n));
-        int curr{1};
+        assert(n > 0);
+        auto res = vector<int>();
+        res.reserve(n);
+        int curr = 1;
 
-        for (int i{0}; i < n; ++i) {
+        for (int i = 0; i < n; ++i) {
             res.push_back(curr);
 
             if (curr * 10 <= n) {

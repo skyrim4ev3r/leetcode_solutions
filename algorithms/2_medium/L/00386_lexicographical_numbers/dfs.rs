@@ -13,6 +13,7 @@ impl Solution {
     }
 
     pub fn lexical_order(n: i32) -> Vec<i32> {
+        debug_assert!(n > 0);
         let mut res: Vec<i32> = Vec::with_capacity(n as usize);
 
         for i in 1..=9 {

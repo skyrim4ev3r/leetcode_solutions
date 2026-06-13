@@ -1,13 +1,13 @@
 class Solution {
 public:
-    char findTheDifference(string s, string t) {
-        char added_char{0};
+    static char findTheDifference(const string& s, const string& t) {
+        char added_char = 0;
 
-        for (const char &ch: s) {
+        for (const char ch: s) {
             added_char ^= ch;
         }
 
-        for (const char &ch: t) {
+        for (const char ch: t) {
             added_char ^= ch;
         }
 

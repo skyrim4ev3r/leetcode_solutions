@@ -1,20 +1,23 @@
 class Solution {
 public:
-    bool canConstruct(string ransomNote, string magazine) {
-        array<int, 26> freqs{};
+    bool canConstruct(string ransom_note, string magazine) {
+        assert(ransom_note.size() <= numeric_limits<int>::max() && magazine.size() <= numeric_limits<int>::max());
+        int freqs[26] = { 0 };
 
-        for (const char& ch : magazine) {
-            freqs[static_cast<size_t>(ch -'a')] += 1;
+        for (const char ch : magazine) {
+            assert(ch >= 'a' && ch <= 'z');
+            freqs[ch -'a'] += 1;
         }
 
-        for (const char& ch : ransomNote) {
-            const size_t index{static_cast<size_t>(ch -'a')};
+        for (const char ch : ransom_note) {
+            assert(ch >= 'a' && ch <= 'z');
+            int& freq = freqs[ch -'a'];
 
-            if (freqs[index] == 0) {
+            if (freq == 0) {
                 return false;
             }
 
-            freqs[index] -= 1;
+            freq -= 1;
         }
 
         return true;

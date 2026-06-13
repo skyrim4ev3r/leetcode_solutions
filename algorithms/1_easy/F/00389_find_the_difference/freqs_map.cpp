@@ -1,22 +1,27 @@
+constexpr ptrdiff_t freqs_len = 26;
+
 class Solution {
 public:
-    char findTheDifference(string s, string t) {
-        int freqs[26]{};
+    char findTheDifference(const string& s, const string& t) {
+        int freqs[freqs_len] = { 0 };
 
-        for (const char &ch: s) {
-            freqs[static_cast<size_t>(ch - 'a')] += 1;
+        for (const char ch : s) {
+            assert(ch >= 'a' && ch <= 'z');
+            freqs[ch - 'a'] += 1;
         }
 
-        for (const char &ch: t) {
-            freqs[static_cast<size_t>(ch - 'a')] -= 1;
+        for (const char ch : t) {
+            assert(ch >= 'a' && ch <= 'z');
+            freqs[ch - 'a'] -= 1;
         }
 
-        for (size_t i{0}; i < 26; ++i) {
+        for (ptrdiff_t i = 0; i < freqs_len; ++i) {
             if (freqs[i] != 0) {
-                return static_cast<char>(i) + 'a';
+                return static_cast<char>(i + 'a');
             }
         }
 
-        return '0';
+        cout << "invalid input";
+        abort();
     }
 };
