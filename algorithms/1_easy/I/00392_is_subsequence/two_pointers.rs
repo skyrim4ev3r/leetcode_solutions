@@ -1,28 +1,22 @@
 impl Solution {
     pub fn is_subsequence(s: String, t: String) -> bool {
-        let s_bytes = s.into_bytes();
-        let t_bytes = t.into_bytes();
+        let s_bytes = s.as_bytes();
+        let t_bytes = t.as_bytes();
 
         let s_len = s_bytes.len();
         let t_len = t_bytes.len();
 
-        let mut s_index = 0_usize;
-        let mut t_index = 0_usize;
+        let mut s_idx = 0_usize;
+        let mut t_idx = 0_usize;
 
-        loop {
-            if s_index == s_len {
-                return true;
+        while s_idx < s_len && t_idx < t_len {
+            if s_bytes[s_idx] == t_bytes[t_idx] {
+                s_idx += 1;
             }
 
-            if t_index == t_len {
-                return false;
-            }
-
-            if s_bytes[s_index] == t_bytes[t_index] {
-                s_index += 1;
-            }
-
-            t_index += 1;
+            t_idx += 1;
         }
+
+        s_idx == s_len
     }
 }

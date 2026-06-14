@@ -3,17 +3,13 @@ class Solution:
         s_len = len(s)
         t_len = len(t)
 
-        s_index = 0
-        t_index = 0
+        s_idx = 0
+        t_idx = 0
 
-        while True:
-            if s_index == s_len:
-                return True
+        while s_idx < s_len and t_idx < t_len:
+            if s[s_idx] == t[t_idx]:
+                s_idx += 1
 
-            if t_index == t_len:
-                return False
+            t_idx += 1
 
-            if s[s_index] == t[t_index]:
-                s_index += 1
-
-            t_index += 1
+        return s_idx == s_len

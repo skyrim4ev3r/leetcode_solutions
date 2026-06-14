@@ -1,26 +1,20 @@
 class Solution {
 public:
-    bool isSubsequence(string s, string t) {
-        size_t s_len{s.size()};
-        size_t t_len{t.size()};
+    static bool isSubsequence(const string& s, const string& t) {
+        const ptrdiff_t s_len = std::ssize(s);
+        const ptrdiff_t t_len = std::ssize(t);
 
-        size_t s_index{0};
-        size_t t_index{0};
+        ptrdiff_t s_idx = 0;
+        ptrdiff_t t_idx = 0;
 
-        while (true) {
-            if (s_index == s_len) {
-                return true;
+        while (s_idx < s_len && t_idx < t_len) {
+            if (s[s_idx] == t[t_idx]) {
+                s_idx += 1;
             }
 
-            if (t_index == t_len) {
-                return false;
-            }
-
-            if (s[s_index] == t[t_index]) {
-                s_index += 1;
-            }
-
-            t_index += 1;
+            t_idx += 1;
         }
+
+        return s_idx == s_len;
     }
 };
