@@ -1,8 +1,8 @@
 class Solution {
 public:
-    int maxIceCream(vector<int>& costs, int coins) {
+    static int maxIceCream(vector<int>& costs, int coins) {
         ranges::sort(costs);
-        int count{ 0 };
+        int count = 0;
 
         for (const auto& cost : costs) {
             if (cost <= coins) {
